@@ -7,10 +7,12 @@ const fsp = promises
 
 // const dirname = path.dirname(fileURLToPath(import.meta.url))
 // const repoDir = path.resolve(dirname, '../..')
-const tscOutputDir = path.join('..', '.tsc-output')
+const tscOutputDir = path.resolve(__dirname, '..', '.tsc-output')
 
 function tsc(args = []) {
-    return spawn('tsc', args, { stdio: 'inherit' })
+    return spawn('tsc', [...args, '--project', 'tsconfig.build.json'], {
+        stdio: 'inherit',
+    })
 }
 
 module.exports = function tscPlugin({ build, watch } = {}) {
@@ -37,21 +39,24 @@ module.exports = function tscPlugin({ build, watch } = {}) {
             return promise
         },
         async resolveId(id, importer) {
-            if (!importer && /^packages\//.test(id) && /\.tsx?$/.test(id)) {
+            /**
+             * 把入口文件解析到.tsc-output
+             */
+            if (!importer && /\.tsx?$/.test(id)) {
                 // This is an entry point. Get it from .tsc-output
                 const jsFile = id
-                    .replace(/^packages/, tscOutputDir)
+                    .replace(/^lib/, tscOutputDir)
                     .replace(/\.tsx?$/, '.js')
 
-                try {
-                    // Emit the .d.ts file too (if it exists)...
-                    const dtsFile = jsFile.replace(/\.js$/, '.d.ts')
-                    const fileName = path.basename(dtsFile)
-                    const source = await fsp.readFile(dtsFile, 'utf-8')
-                    this.emitFile({ type: 'asset', fileName, source })
-                } catch (error) {
-                    // No .d.ts file... carry on
-                }
+                // try {
+                //     // Emit the .d.ts file too (if it exists)...
+                //     const dtsFile = jsFile.replace(/\.js$/, '.d.ts')
+                //     const fileName = path.basename(dtsFile)
+                //     const source = await fsp.readFile(dtsFile, 'utf-8')
+                //     this.emitFile({ type: 'asset', fileName, source })
+                // } catch (error) {
+                //     // No .d.ts file... carry on
+                // }
 
                 return jsFile
             }
@@ -72,6 +77,9 @@ module.exports = function tscPlugin({ build, watch } = {}) {
             }
 
             return null
+        },
+        buildEnd() {
+            console.log('-----------------> build')
         },
     }
 }

@@ -27,10 +27,10 @@
   "include": [
     "lib/**/*.ts",
     "lib/**/*.tsx",
-    "tests/**/*.ts",
-    "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "**/__tests__/**/*.ts",
+    "**/__tests__/**/*.tsx"
   ]
 }
