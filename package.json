@@ -1,6 +1,6 @@
 {
-    "name": "svuex",
-    "version": "0.1.0",
+    "name": "@pure-vue/router",
+    "version": "0.0.1",
     "private": true,
     "types": "types",
     "module": "dist/index.js",
