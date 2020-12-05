@@ -4,7 +4,7 @@ node_modules
 /.tsc-output
 /types
 /dist
-
+/coverage
 
 # local env files
 .env.local

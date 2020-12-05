@@ -78,8 +78,5 @@ module.exports = function tscPlugin({ build, watch } = {}) {
 
             return null
         },
-        buildEnd() {
-            console.log('-----------------> build')
-        },
     }
 }

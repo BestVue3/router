@@ -33,6 +33,7 @@ module.exports = function({ watch }) {
         ],
         replacePlugin = null,
         terserPlugin = false,
+        commonjsPlugin = false,
         output = null,
         file = `${OUTPUT_DIR}/index.js`,
     }) {
@@ -56,6 +57,7 @@ module.exports = function({ watch }) {
                     plugins: babelPlugins,
                 }),
                 ...(replacePlugin ? [replacePlugin] : []),
+                ...(commonjsPlugin ? [commonjs()] : []),
                 compiler(),
                 ...(terserPlugin ? [terser({ ecma: 8, safari10: true })] : []),
             ].concat(PRETTY ? prettier({ parser: 'babel' }) : []),
@@ -91,13 +93,30 @@ module.exports = function({ watch }) {
             terserPlugin: true,
         }),
         // umd development
-        // createRollupConfig({
-        //     file: `${OUTPUT_DIR}/umd/${OUTPUT_NAME}.development.js`,
-        //     format: 'umd',
-        //     output: {
-        //         globals: { history: 'HistoryLibrary' },
-        //         name: LIB_NAME,
-        //     },
-        // }),
+        createRollupConfig({
+            file: `${OUTPUT_DIR}/umd/${OUTPUT_NAME}.development.js`,
+            format: 'umd',
+            output: {
+                globals: { history: 'HistoryLibrary' },
+                name: LIB_NAME,
+            },
+            replacePlugin: replace({
+                'process.env.NODE_ENV': JSON.stringify('development'),
+            }),
+            commonjsPlugin: true,
+        }),
+        // umd production
+        createRollupConfig({
+            file: `${OUTPUT_DIR}/umd/${OUTPUT_NAME}.production.js`,
+            format: 'umd',
+            output: {
+                globals: { history: 'HistoryLibrary' },
+                name: LIB_NAME,
+            },
+            replacePlugin: replace({
+                'process.env.NODE_ENV': JSON.stringify('production'),
+            }),
+            terserPlugin: true,
+        }),
     ]
 }

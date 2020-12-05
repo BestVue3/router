@@ -4,6 +4,8 @@
     "private": true,
     "types": "types",
     "module": "dist/index.js",
+    "main": "main.js",
+    "unpkg": "dist/umd/pvue-router.production.min.js",
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "node ./scripts/build.js",
