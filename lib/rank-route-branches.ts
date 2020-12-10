@@ -8,13 +8,13 @@ const splatPenalty = -2
 const isSplat = (s: string) => s === '*'
 
 /**
- * very intresting here
+ * very interesting here
  * they made a score for:
  *  - :id
  *  - *
  *  - /static-path
  * then combine every part of the path together
- * this is the score of `path`
+ * the result is the score of `path`
  */
 function computeScore(path: string): number {
     const segments = path.split('/')

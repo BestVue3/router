@@ -4,15 +4,14 @@ import {
     Fragment,
     defineComponent,
     VNode,
-    Slots,
     PropType,
     computed,
     onMounted,
 } from 'vue'
-import { PartialLocation, parsePath, Location, To, State } from 'history'
+import { PartialLocation, parsePath, To, State } from 'history'
 
 import forEachChild from './forEachChild'
-import { rs, joinPaths, warning, warningOnce, invariant } from './utils'
+import { rs, joinPaths, warning, warningOnce } from './utils'
 import {
     Params,
     RouteObject,
@@ -21,7 +20,6 @@ import {
     PathMatch,
     PathPattern,
     readOnly,
-    RouteContextObject,
     PartialRouteObject,
 } from './types'
 import rankRouteBranches from './rank-route-branches'
@@ -30,9 +28,9 @@ import {
     useLocation,
     useRouteContext,
     useOutlet,
-    useInRouter,
-    useInRouterInvariant,
     useNavigate,
+    useHistoryContext,
+    useInRouterInvariant,
 } from './context'
 
 declare const __DEV__: boolean
@@ -282,8 +280,6 @@ export function createRoutesFromChildren(children: VNodeChild): RouteObject[] {
 }
 
 function useRoutes_(
-    // routeContext: RouteContextObject,
-    // location: Location,
     computeRoutes: () => RouteObject[],
     getBasename: () => string,
 ): () => VNode | null {
@@ -364,74 +360,17 @@ function useRoutes_(
     // }
 }
 
-function renderRoutes(
-    routeContext: RouteContextObject,
-    location: Location,
-    routes: RouteObject[],
-    basename = '',
-): VNode | null {
-    // const routeContextRef = useRouteContext()
-    // const locationRef = useLocation()
-
-    // const matchesRef = computed(() => {
-    const {
-        route: parentRoute,
-        pathname: parentPathname,
-        params: parentParams,
-    } = routeContext
-
-    // const location = location.value
-
-    if (__DEV__) {
-        // You won't get a warning about 2 different <Routes> under a <Route>
-        // without a trailing *, but this is a best-effort warning anyway since we
-        // cannot even give the warning unless they land at the parent route.
-        const parentPath = parentRoute && parentRoute.path
-        warningOnce(
-            parentPathname,
-            !parentRoute || parentRoute.path.endsWith('*'),
-            `You rendered descendant <Routes> (or called \`useRoutes\`) at "${parentPathname}"` +
-                ` (under <Route path="${parentPath}">) but the parent route path has no trailing "*".` +
-                ` This means if you navigate deeper, the parent won't match anymore and therefore` +
-                ` the child routes will never render.` +
-                `\n\n` +
-                `Please change the parent <Route path="${parentPath}"> to <Route path="${parentPath}/*">.`,
-        )
-    }
-
-    basename = basename ? joinPaths([parentPathname, basename]) : parentPathname
-
-    const matches = matchRoutes(routes, location, basename)
-
-    if (!matches) {
-        // TODO: Warn about nothing matching, suggest using a catch-all route.
-        return null
-    }
-
-    const element = matches.reduceRight(
-        (outlet, { params, pathname, route }) => {
-            return (
-                <RouteContextProvider
-                    // v-slots={slots}
-                    node={route.node as VNode}
-                    value={{
-                        outlet,
-                        params: readOnly<Params>({
-                            ...parentParams,
-                            ...params,
-                        }),
-                        pathname: joinPaths([basename, pathname]),
-                        route,
-                    }}
-                />
-            ) as VNode
-        },
-        null as VNode | null,
-    )
-
-    return element
-    // }
-}
+/**
+ * props define for <Routes/>
+ * people will need this
+ * if they want to define custom <Routes/>
+ */
+export const RoutesProps = {
+    basename: {
+        type: String,
+        default: '',
+    },
+} as const
 
 /**
  * A container for a nested tree of <Route> elements that renders the branch
@@ -441,12 +380,7 @@ function renderRoutes(
  */
 export const Routes = defineComponent({
     name: 'Routes',
-    props: {
-        basename: {
-            type: String,
-            default: '',
-        },
-    },
+    props: RoutesProps,
     setup(props, { slots }) {
         return useRoutes_(
             () => {
@@ -456,20 +390,6 @@ export const Routes = defineComponent({
             },
             () => props.basename,
         )
-        // const routeContextRef = useRouteContext()
-        // const locationRef = useLocation()
-
-        // return () => {
-        //     const { basename } = props
-        //     const children = rs(slots)
-        //     const routes = createRoutesFromChildren(children)
-        //     return renderRoutes(
-        //         routeContextRef.value,
-        //         locationRef.value,
-        //         routes,
-        //         basename,
-        //     )
-        // }
     },
 })
 
@@ -516,37 +436,6 @@ export function useRoutes(
         },
         () => getBasename() || '',
     )
-
-    // const isInRouterRef = useInRouter()
-
-    // const routesRef = computed(() => {
-    //     const { partialRoutes } = config
-    //     return createRoutesFromArray(partialRoutes)
-    // })
-
-    // const routeContextRef = useRouteContext()
-    // const locationRef = useLocation()
-
-    // return () => {
-    //     invariant(
-    //         isInRouterRef.value,
-    //         // TODO: This error is probably because they somehow have 2 versions of the
-    //         // router loaded. We can help them understand how to avoid that.
-    //         `useRoutes() may be used only in the context of a <Router> component.`,
-    //     )
-
-    //     const { basename = '' } = config
-    //     const routes = routesRef.value
-
-    //     return renderRoutes(
-    //         routeContextRef.value,
-    //         locationRef.value,
-    //         routes,
-    //         basename,
-    //     )
-    // }
-
-    // return () => renderRoutes()
 }
 
 /**
@@ -563,28 +452,47 @@ export const Outlet = defineComponent({
 })
 
 /**
+ * props define for <Route/>
+ * people will need this
+ * if they want to define custom <Route/>
+ */
+export const RouteProps = {
+    element: {
+        type: Object as PropType<VNode | JSX.Element>,
+        default: <Outlet />,
+    },
+    path: String,
+} as const
+
+/**
  * Declares an element that should be rendered at a certain URL path.
  *
  * @see https://reactrouter.com/api/Route
  */
-// export function Route({
-//     element = <Outlet />
-//   }: RouteProps): React.ReactElement | null {
-//     return element;
-//   }
 export const Route = defineComponent({
     name: 'Route',
-    props: {
-        element: {
-            type: Object as PropType<VNode | JSX.Element>,
-            default: <Outlet />,
-        },
-        path: String,
-    },
+    props: RouteProps,
     setup(props) {
         return () => props.element
     },
 })
+
+/**
+ * props define for <Navigate/>
+ * people will need this
+ * if they want to define custom <Navigate/>
+ * TODO: doc address
+ */
+export const NavigateProps = {
+    to: {
+        type: [Object, String] as PropType<To>,
+        required: true,
+    },
+    replace: Boolean,
+    state: {
+        type: Object as PropType<State>,
+    },
+} as const
 
 /**
  * Changes the current location.
@@ -597,21 +505,28 @@ export const Route = defineComponent({
  */
 export const Navigate = defineComponent({
     name: 'Navigate',
-    props: {
-        to: {
-            type: [Object, String] as PropType<To>,
-            required: true,
-        },
-        replace: Boolean,
-        state: {
-            type: Object as PropType<State>,
-        },
-    },
+    props: NavigateProps,
     setup(props) {
         const navigate = useNavigate()
+        const historyRef = useHistoryContext()
+
+        useInRouterInvariant(
+            // TODO: This error is probably because they somehow have 2 versions of
+            // the router loaded. We can help them understand how to avoid that.
+            `<Navigate> may be used only in the context of a <Router> component.`,
+        )
+
         onMounted(() => {
             navigate(props.to, { replace: props.replace, state: props.state })
         })
-        return () => null
+        return () => {
+            warning(
+                !historyRef.value.static,
+                `<Navigate> must not be used on the initial render in a <StaticRouter>. ` +
+                    `This is a no-op, but you should modify your code so the <Navigate> is ` +
+                    `only ever rendered in response to some user interaction or state change.`,
+            )
+            return null
+        }
     },
 })

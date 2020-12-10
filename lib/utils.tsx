@@ -1,6 +1,5 @@
 import { Slots, VNode } from 'vue'
 import { To, Path, parsePath } from 'history'
-import { Params } from './types'
 
 export function invariant(cond: boolean, message: string): void {
     if (!cond) throw new Error(message)

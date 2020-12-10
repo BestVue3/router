@@ -6,52 +6,23 @@ import {
     PropType,
     provide,
     VNode,
-    VNodeChild,
     ref,
     computed,
     watchEffect,
     onMounted,
 } from 'vue'
-import {
-    History,
-    Location,
-    Action,
-    To,
-    Path,
-    Blocker,
-    State,
-    Transition,
-} from 'history'
+import { Location, To, Path, Blocker, State, Transition } from 'history'
 import { invariant, rs, resolvePath, warning } from './utils'
 
 import {
     LocationContextObject,
     RouteContextObject,
-    RouteObject,
     readOnly,
     Params,
-    Navigator,
 } from './types'
-
-// export interface Match {
-//     path: string
-//     url: string
-//     params: {
-//         [key: string]: any
-//     }
-//     isExact: boolean
-// }
-
-// export interface HistoryContext {
-//     history: History
-//     location: Location
-//     match: Match
-//     staticContext: object
-// }
 
 export const LocationContextKey = Symbol('LocationContext')
 export const RouteContextKey = Symbol('RouteContext')
-// export const HistoryContextKey = Symbol()
 
 export function useHistoryContext(name?: string) {
     const contextRef = inject<Ref<LocationContextObject> | undefined>(
@@ -69,6 +40,9 @@ export function useHistoryContext(name?: string) {
     return contextRef as Ref<LocationContextObject>
 }
 
+/**
+ * TODO: 这个跟上面的明显有些重复了
+ */
 export function useInRouter() {
     const contextRef = inject<Ref<LocationContextObject> | undefined>(
         LocationContextKey,
@@ -101,14 +75,6 @@ export function useInRouterInvariant(msg: string) {
  * @see https://reactrouter.com/api/useLocation
  */
 export function useLocation(): Ref<Location> {
-    // invariant(
-    //   useInRouterContext(),
-    //   // TODO: This error is probably because they somehow have 2 versions of the
-    //   // router loaded. We can help them understand how to avoid that.
-    //   `useLocation() may be used only in the context of a <Router> component.`
-    // );
-
-    // return useHistoryContext().value.location!;
     const historyRef = useHistoryContext()
     const locationRef = computed(() => historyRef.value.location!)
 
@@ -125,11 +91,6 @@ export function useRouteContext() {
             route: null,
         }),
     )
-
-    // invariant(
-    //     !!contextRef && isRef(contextRef),
-    //     'you should use `useRouteContext` under <Router />',
-    // )
 
     return contextRef
 }
@@ -171,19 +132,6 @@ export function useResolvedPath(to: () => To): Ref<Path> {
     const routeContextRef = useRouteContext()
     return computed(() => resolvePath(to(), routeContextRef.value.pathname))
 }
-
-// export function useHistory(name?: string) {
-//     const historyRef = inject<Ref<History>>(HistoryContextKey)
-
-//     invariant(
-//         !!historyRef && isRef(historyRef),
-//         name
-//             ? `<${name}> must be used with <Router />`
-//             : 'you should use `useHistory` under <Router />',
-//     )
-
-//     return historyRef
-// }
 
 export const LocationContextProvider = defineComponent({
     name: 'LocationContextProvider',
@@ -325,8 +273,8 @@ export function useNavigate(): NavigateFunction {
         } else {
             warning(
                 false,
-                `You should call navigate() in a useEffect, not when ` +
-                    `your component is first rendered.`,
+                `You should call navigate() in a watchEffect, not in ` +
+                    `your setup function.`,
             )
         }
     }

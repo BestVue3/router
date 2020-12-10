@@ -9,9 +9,6 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "rootDir": "lib",
-    "outDir": ".tsc-output",
-    "declaration": true,
     "baseUrl": ".",
     "types": [
       "webpack-env",
@@ -28,7 +25,9 @@
     "lib/**/*.ts",
     "lib/**/*.tsx",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
+    "tests/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
   ],
   "exclude": [
     "node_modules"

@@ -1,9 +1,6 @@
 import {
-    BrowserHistory,
-    HashHistory,
     State,
     To,
-    Update,
     createBrowserHistory,
     createHashHistory,
     createPath,
@@ -18,14 +15,12 @@ import {
     Ref,
     AnchorHTMLAttributes,
     ExtractPropTypes,
-    CSSProperties,
 } from 'vue'
 import { Router } from './Router'
 import {
     useHref,
     useBlocker,
     useLocation,
-    useHistoryContext,
     useResolvedPath,
     useNavigate,
 } from './context'
@@ -39,14 +34,24 @@ declare const __DEV__: boolean
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
+ * props define for <BrowserRouter/> & <HashRouter/>
+ * people will need this
+ * if they want to define custom <BrowserRouter/> & <HashRouter/>
+ * TODO: doc address
+ */
+const RouterProps = {
+    window: Object as PropType<Window>,
+} as const
+export const BrowserRouterProps = RouterProps
+export const HashRouterProps = RouterProps
+
+/**
  * helper function to create `Browser` & `Hash` Router
  */
 function createRouter(type: 'Browser' | 'Hash') {
     return defineComponent({
         name: `${type}Router`,
-        props: {
-            window: Object as PropType<Window>,
-        },
+        props: RouterProps,
         setup(props, { slots }) {
             const historyRef = computed(() => {
                 return (type === 'Browser'
@@ -95,7 +100,17 @@ function isModifiedEvent(event: KeyboardEvent) {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey)
 }
 
-const LinkProps = {
+/**
+ * props define for <Link/>
+ * people will need this
+ * if they want to define custom <Link/>
+ *
+ * Link is a little bit different that
+ * we only define props we needed in object
+ * but use `AnchorHTMLAttributes` for types
+ * TODO: doc address
+ */
+export const LinkProps = {
     onClick: {
         type: Function as PropType<(e: MouseEvent) => void>,
     },
@@ -171,6 +186,19 @@ export const Link = defineComponent<LinkPropsType, {}, {}, {}, {}, {}>({
  */
 
 /**
+ * props define for <Prompt/>
+ * people will need this
+ * if they want to define custom <Prompt/>
+ */
+export const PromptProps = {
+    message: {
+        type: String,
+        required: true,
+    },
+    when: Boolean,
+} as const
+
+/**
  * A declarative interface for showing a window.confirm dialog with the given
  * message when the user tries to navigate away from the current page.
  *
@@ -179,13 +207,7 @@ export const Link = defineComponent<LinkPropsType, {}, {}, {}, {}, {}>({
  */
 export const Prompt = defineComponent({
     name: 'Prompt',
-    props: {
-        message: {
-            type: String,
-            required: true,
-        },
-        when: Boolean,
-    },
+    props: PromptProps,
     setup(props) {
         usePrompt(
             () => props.message,

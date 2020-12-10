@@ -1,0 +1,138 @@
+.markdown {
+    display: grid;
+    grid-template-columns: 500px 500px 1fr;
+}
+
+.markdown > * {
+    grid-column: 1;
+}
+
+.markdown > pre {
+    grid-column: 2;
+    width: 100%;
+    background: rgb(1 85 104);
+    white-space: pre-wrap;
+}
+
+/* overide language class */
+.markdown > pre .language-jsx {
+    white-space: pre-wrap;
+}
+/* all the things we render *except* headers and <pre>, add them as needed! */
+.markdown > *:not(pre):not(h1):not(h2) {
+    display: block;
+    width: 500px;
+    padding-right: 40px;
+}
+
+.markdown h1,
+.markdown h2 {
+    padding-right: 40px;
+    font-weight: bold;
+}
+
+.markdown h1 {
+    font-family: Menlo, monospace;
+    padding: 40px 0px 10px 0px;
+    color: rgb(204, 65, 65);
+    font-size: 2em;
+}
+
+.markdown h2 {
+    font-family: Menlo, monospace;
+    font-size: 1.5em;
+    padding-top: 40px;
+    position: relative;
+    width: 40%;
+}
+
+.markdown h2:before {
+    content: ' ';
+    height: 1px;
+    width: 200px;
+    background: linear-gradient(
+        to right,
+        rgba(100, 100, 100, 1) 0%,
+        rgba(85, 85, 85, 0) 100%
+    );
+    position: absolute;
+    left: 480px;
+}
+
+.markdown h2 a {
+    color: rgb(45, 45, 45);
+}
+
+.markdown h2 + p {
+    margin-top: 10px;
+}
+
+.markdown h1,
+h2,
+h3 {
+    position: relative;
+}
+
+@media screen and (max-width: 1270px) {
+    .api-doc-wrapper {
+        background: white;
+    }
+    .api-doc {
+        box-shadow: none;
+        padding: 0 20px;
+    }
+
+    .markdown > pre {
+        padding: 20px;
+        border-radius: 6px;
+        overflow: auto;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .markdown > *:not(pre):not(h1):not(h2) {
+        display: block;
+        width: auto;
+    }
+
+    .markdown h2 {
+        width: 100%;
+    }
+
+    .markdown h2:before {
+        display: none;
+    }
+}
+
+/* /old stuff */
+
+.markdown p {
+    margin: 1em 0;
+}
+
+.markdown h1 + h2 {
+    margin-top: -40px;
+    font-weight: normal;
+}
+
+.markdown th {
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+    font-size: 0.8em;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.markdown tr:nth-child(even) {
+    background: #f0f0f0;
+}
+
+.markdown table td,
+.markdown table th {
+    padding: 2px 4px;
+}
+
+.markdown a {
+    color: #d0021b;
+    text-decoration: none;
+}

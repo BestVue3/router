@@ -7,9 +7,22 @@ import {
     createMemoryHistory,
 } from 'history'
 
-import { invariant, warning } from './utils'
+import { invariant } from './utils'
 import { LocationContextProvider, useInRouter } from './context'
 import { Navigator } from './types'
+
+/**
+ * props define for <MemoryRouter/>
+ * people will need this
+ * if they want to define custom <MemoryRouter/>
+ * TODO: doc address
+ */
+export const MemoryRouterProps = {
+    initialEntries: {
+        type: Array as PropType<InitialEntry[]>,
+    },
+    initialIndex: Number,
+} as const
 
 /**
  * A <Router> that stores all entries in memory.
@@ -18,12 +31,7 @@ import { Navigator } from './types'
  */
 export const MemoryRouter = defineComponent({
     name: 'MemoryRouter',
-    props: {
-        initialEntries: {
-            type: Array as PropType<InitialEntry[]>,
-        },
-        initialIndex: Number,
-    },
+    props: MemoryRouterProps,
     setup(props, { slots }) {
         const { initialEntries, initialIndex } = props // eslint-disable-line
         const history = createMemoryHistory({
@@ -55,6 +63,30 @@ export const MemoryRouter = defineComponent({
 })
 
 /**
+ * props define for <Router/>
+ * people will need this
+ * if they want to define custom <Router/>
+ * TODO: doc address
+ */
+export const RouterProps = {
+    action: {
+        type: String as PropType<Action>,
+        default: Action.Pop,
+    },
+    location: {
+        type: Object as PropType<Location>,
+    },
+    navigator: {
+        type: Object as PropType<Navigator>,
+        required: true,
+    },
+    static: {
+        type: Boolean,
+        default: false,
+    },
+} as const
+
+/**
  * Provides location context for the rest of the app.
  *
  * Note: You usually won't render a <Router> directly. Instead, you'll render a
@@ -65,23 +97,7 @@ export const MemoryRouter = defineComponent({
  */
 export const Router = defineComponent({
     name: 'Router',
-    props: {
-        action: {
-            type: String as PropType<Action>,
-            default: Action.Pop,
-        },
-        location: {
-            type: Object as PropType<Location>,
-        },
-        navigator: {
-            type: Object as PropType<Navigator>,
-            required: true,
-        },
-        static: {
-            type: Boolean,
-            default: false,
-        },
-    },
+    props: RouterProps,
     setup(props, { slots }) {
         const locationContextRef = computed(() => {
             const { action, location, navigator, static: staticProp } = props

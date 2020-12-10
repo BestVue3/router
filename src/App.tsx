@@ -1,4 +1,3 @@
-// import App from './App.vue'
 import { createMemoryHistory } from 'history'
 import { createApp, defineComponent, onMounted } from 'vue'
 import {
@@ -11,52 +10,14 @@ import {
     BrowserRouter,
     useNavigate,
     Navigate,
+    defineRouteComponent,
 } from '../lib'
 // import MemoryRouter from './lib/MemoryRouter'
 // import Route from './lib/Route'
 
-console.log(MemoryRouter, Route)
+import MarkdownViewer from './components/MarkdownViewer'
 
-const Comp = defineComponent({
-    name: 'Comp',
-    setup(p, { slots }) {
-        return () => {
-            const children = slots.default && slots.default()
-            console.log(children)
-            return children
-        }
-    },
-})
-
-/**
- *
- */
-const Test = defineComponent({
-    // props: {
-    //     path: String,
-    // },
-    setup() {
-        return () => [<h1>App</h1>, <Outlet></Outlet>]
-    },
-})
-
-const XXX: any = Test
-
-const TTT = defineComponent({
-    setup() {
-        const paramsRef = useParams()
-
-        return () => {
-            return <Link to=".">{paramsRef.value.text}</Link>
-        }
-    },
-})
-
-const Start = defineComponent({
-    setup() {
-        return () => <Navigate to="/blog/pure vue router" />
-    },
-})
+import md from '../docs/zh/guides/quick-start.md'
 
 const App = defineComponent({
     name: 'App',
@@ -72,11 +33,10 @@ const App = defineComponent({
             return (
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<Start />}></Route>
-                        <Route path="blog/:text" element={<TTT />}></Route>
-                        {/* <XXX path="app">
-                            <Route path=":text" element={<TTT />}></Route>
-                        </XXX> */}
+                        <Route
+                            path="/"
+                            element={<MarkdownViewer html={md.markup} />}
+                        ></Route>
                     </Routes>
                 </BrowserRouter>
             )

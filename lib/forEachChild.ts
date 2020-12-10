@@ -5,8 +5,6 @@ export default function forEachChild(
     fn: (node: VNodeChild) => void,
     traverseFragment = false,
 ) {
-    // TODO: RawSlots?
-
     /**
      * for string/number/void/boolean just do fn
      */
