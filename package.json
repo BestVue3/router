@@ -1,7 +1,7 @@
 {
     "name": "@pure-vue/router",
     "description": "Declarative routing fro Vue3",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "types": "types",
     "module": "dist/index.js",
     "main": "main.js",
