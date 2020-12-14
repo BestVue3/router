@@ -4,7 +4,7 @@ import { Params } from './types'
 /**
  * Returns a path with params interpolated.
  *
- * @see https://reactrouter.com/api/generatePath
+ * @see https://router.bestvue3.com/api/generatePath
  */
 export default function generatePath(
     path: string,

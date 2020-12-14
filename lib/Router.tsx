@@ -8,7 +8,7 @@ import {
 } from 'history'
 
 import { invariant } from './utils'
-import { LocationContextProvider, useInRouter } from './context'
+import { LocationContextProvider, useHistory } from './context'
 import { Navigator } from './types'
 
 /**
@@ -27,7 +27,7 @@ export const MemoryRouterProps = {
 /**
  * A <Router> that stores all entries in memory.
  *
- * @see https://reactrouter.com/api/MemoryRouter
+ * @see https://router.bestvue3.com/api/MemoryRouter
  */
 export const MemoryRouter = defineComponent({
     name: 'MemoryRouter',
@@ -93,7 +93,7 @@ export const RouterProps = {
  * router that is more specific to your environment such as a <BrowserRouter>
  * in web browsers or a <StaticRouter> for server rendering.
  *
- * @see https://reactrouter.com/api/Router
+ * @see https://router.bestvue3.com/api/Router
  */
 export const Router = defineComponent({
     name: 'Router',
@@ -104,11 +104,11 @@ export const Router = defineComponent({
             return { action, location, navigator, static: staticProp }
         })
 
-        const isInRouterRef = useInRouter()
+        const historyRef = useHistory()
 
         return () => {
             invariant(
-                !isInRouterRef.value,
+                !historyRef,
                 `You cannot render a <Router> inside another <Router>.` +
                     ` You never need more than one.`,
             )

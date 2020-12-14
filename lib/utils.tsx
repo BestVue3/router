@@ -78,7 +78,7 @@ function resolvePathname(toPathname: string, fromPathname: string): string {
 /**
  * Returns a resolved path object relative to the given pathname.
  *
- * @see https://reactrouter.com/api/resolvePath
+ * @see https://router.bestvue3.com/api/resolvePath
  */
 export function resolvePath(to: To, fromPathname = '/'): Path {
     const { pathname: toPathname, search = '', hash = '' } =

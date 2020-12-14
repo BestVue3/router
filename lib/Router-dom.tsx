@@ -23,9 +23,10 @@ import {
     useLocation,
     useResolvedPath,
     useNavigate,
+    useInRouter,
 } from './context'
 
-import { warning, renderSlots } from './utils'
+import { warning, renderSlots, invariant } from './utils'
 
 declare const __DEV__: boolean
 
@@ -134,6 +135,11 @@ export const Link = defineComponent<LinkPropsType, {}, {}, {}, {}, {}>({
     name: 'Link',
     props: LinkProps as any,
     setup(props, { slots }) {
+        invariant(
+            useInRouter(),
+            `<Link /> may be used only in the context of a <Router> component.`,
+        )
+
         const hrefRef = useHref(() => props.to)
         const navigate = useNavigate()
         const pathRef = useResolvedPath(() => props.to)
@@ -225,19 +231,22 @@ export const Prompt = defineComponent({
  * Prevents navigation away from the current page using a window.confirm prompt
  * with the given message.
  */
-export function usePrompt(getMessage: () => string, getWhen: () => boolean) {
+export function usePrompt(
+    messageEffect: () => string,
+    whenEffect: () => boolean,
+) {
     const blocker = (tx: Transition) => {
-        if (window.confirm(getMessage())) tx.retry()
+        if (window.confirm(messageEffect())) tx.retry()
     }
 
-    useBlocker(blocker, getWhen)
+    useBlocker(blocker, whenEffect)
 }
 
 /**
  * A convenient wrapper for reading and writing search parameters via the
  * URLSearchParams interface.
  */
-export function useSearchParams(getDefaultInit?: () => URLSearchParamsInit) {
+export function useSearchParams(defaultInitEffect?: () => URLSearchParamsInit) {
     warning(
         typeof URLSearchParams !== 'undefined',
         'You cannot use the `useSearchParams` hook in a browser that does not' +
@@ -263,7 +272,7 @@ export function useSearchParams(getDefaultInit?: () => URLSearchParamsInit) {
         const location = locationRef.value
 
         const defaultSearchParams = createSearchParams(
-            getDefaultInit && getDefaultInit(),
+            defaultInitEffect && defaultInitEffect(),
         )
 
         const searchParams = createSearchParams(location.search)

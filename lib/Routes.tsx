@@ -7,11 +7,12 @@ import {
     PropType,
     computed,
     onMounted,
+    Ref,
 } from 'vue'
 import { PartialLocation, parsePath, To, State } from 'history'
 
 import forEachChild from './forEachChild'
-import { rs, joinPaths, warning, warningOnce } from './utils'
+import { rs, joinPaths, warning, warningOnce, invariant } from './utils'
 import {
     Params,
     RouteObject,
@@ -29,8 +30,8 @@ import {
     useRouteContext,
     useOutlet,
     useNavigate,
-    useHistoryContext,
-    useInRouterInvariant,
+    useHistory,
+    useInRouter,
 } from './context'
 
 declare const __DEV__: boolean
@@ -90,7 +91,7 @@ function safelyDecodeURIComponent(value: string, paramName: string) {
  * Performs pattern matching on a URL pathname and returns information about
  * the match.
  *
- * @see https://reactrouter.com/api/matchPath
+ * @see https://router.bestvue3.com/api/matchPath
  */
 export function matchPath(
     pattern: PathPattern,
@@ -183,7 +184,7 @@ function flattenRoutes(
 /**
  * Matches the given routes to a location and returns the match data.
  *
- * @see https://reactrouter.com/api/matchRoutes
+ * @see https://router.bestvue3.com/api/matchRoutes
  */
 export function matchRoutes(
     routes: RouteObject[],
@@ -222,7 +223,7 @@ export function matchRoutes(
  * either a `<Route>` element or an array of them. Used internally by
  * `<Routes>` to create a route config from its children.
  *
- * @see https://reactrouter.com/api/createRoutesFromChildren
+ * @see https://router.bestvue3.com/api/createRoutesFromChildren
  */
 export function createRoutesFromChildren(children: VNodeChild): RouteObject[] {
     const routes: RouteObject[] = []
@@ -280,14 +281,14 @@ export function createRoutesFromChildren(children: VNodeChild): RouteObject[] {
 }
 
 function useRoutes_(
-    computeRoutes: () => RouteObject[],
-    getBasename: () => string,
+    routesEffect: () => RouteObject[],
+    basenameEffect: () => string,
 ): () => VNode | null {
     const routeContextRef = useRouteContext()
     const locationRef = useLocation()
 
-    const routesRef = computed(computeRoutes)
-    const basenameRef = computed(() => getBasename() || '')
+    const routesRef = computed(routesEffect)
+    const basenameRef = computed(() => basenameEffect() || '')
 
     const matchesRef = computed(() => {
         // const matchesRef = computed(() => {
@@ -376,7 +377,7 @@ export const RoutesProps = {
  * A container for a nested tree of <Route> elements that renders the branch
  * that best matches the current location.
  *
- * @see https://reactrouter.com/api/Routes
+ * @see https://router.bestvue3.com/api/Routes
  */
 export const Routes = defineComponent({
     name: 'Routes',
@@ -397,7 +398,7 @@ export const Routes = defineComponent({
  * Creates a route config from an array of JavaScript objects. Used internally
  * by `useRoutes` to normalize the route config.
  *
- * @see https://reactrouter.com/api/createRoutesFromArray
+ * @see https://router.bestvue3.com/api/createRoutesFromArray
  */
 export function createRoutesFromArray(
     array: PartialRouteObject[],
@@ -423,25 +424,52 @@ export function createRoutesFromArray(
  * elements in the tree must render an <Outlet> to render their child route's
  * element.
  *
- * @see https://reactrouter.com/api/useRoutes
+ * @see https://router.bestvue3.com/api/useRoutes
  * TODO: support this?
  */
 export function useRoutes(
-    computePartialRoutes: () => PartialRouteObject[],
-    getBasename: () => string,
+    partialRoutesEffect: () => PartialRouteObject[],
+    basenameEffect: () => string,
 ): () => VNode | null {
+    invariant(
+        useInRouter(),
+        `useRoutes may be used only in the context of a <Router> component.`,
+    )
     return useRoutes_(
         () => {
-            return createRoutesFromArray(computePartialRoutes())
+            return createRoutesFromArray(partialRoutesEffect())
         },
-        () => getBasename() || '',
+        () => basenameEffect() || '',
+    )
+}
+
+/**
+ * Returns true if the URL for the given "to" value matches the current URL.
+ * This is useful for components that need to know "active" state, e.g.
+ * <NavLink>.
+ *
+ * @see https://router.bestvue3.com/api/useMatch
+ */
+export function useMatch(
+    patternEffect: () => PathPattern,
+): Ref<PathMatch | null> {
+    invariant(
+        useInRouter(),
+        `useMatch() may be used only in the context of a <Router> component.`,
+    )
+
+    const historyRef = useHistory()
+
+    // let locationRef = useLocation()
+    return computed(() =>
+        matchPath(patternEffect(), historyRef.value.location!.pathname),
     )
 }
 
 /**
  * Renders the child route's element, if there is one.
  *
- * @see https://reactrouter.com/api/Outlet
+ * @see https://router.bestvue3.com/api/Outlet
  */
 export const Outlet = defineComponent({
     name: 'Outlet',
@@ -458,8 +486,9 @@ export const Outlet = defineComponent({
  */
 export const RouteProps = {
     element: {
-        type: Object as PropType<VNode | JSX.Element>,
-        default: <Outlet />,
+        type: [Object, Function] as PropType<
+            VNode | JSX.Element | (() => VNodeChild | JSX.Element)
+        >,
     },
     path: String,
 } as const
@@ -467,13 +496,27 @@ export const RouteProps = {
 /**
  * Declares an element that should be rendered at a certain URL path.
  *
- * @see https://reactrouter.com/api/Route
+ * We have to consider SFC, in SFC it's not very convenient to pass VNode as props
+ * so we accept named slot `element` to implemenet
+ *
+ * In vue3, use function to pass `element` is more performt
+ *
+ * @see https://router.bestvue3.com/api/Route
  */
 export const Route = defineComponent({
     name: 'Route',
     props: RouteProps,
-    setup(props) {
-        return () => props.element
+    setup(props, { slots }) {
+        return () => {
+            const element = props.element || slots.element
+            if (!element) return <Outlet />
+            if (isVNode(element)) return element
+            if (typeof element === 'function') return element()
+            else
+                throw Error(
+                    '<Route> only support `VNode` or `() => VNodeChild` as element',
+                )
+        }
     },
 })
 
@@ -501,20 +544,19 @@ export const NavigateProps = {
  * able to use hooks. In functional components, we recommend you use the
  * `useNavigate` hook instead.
  *
- * @see https://reactrouter.com/api/Navigate
+ * @see https://router.bestvue3.com/api/Navigate
  */
 export const Navigate = defineComponent({
     name: 'Navigate',
     props: NavigateProps,
     setup(props) {
-        const navigate = useNavigate()
-        const historyRef = useHistoryContext()
-
-        useInRouterInvariant(
-            // TODO: This error is probably because they somehow have 2 versions of
-            // the router loaded. We can help them understand how to avoid that.
-            `<Navigate> may be used only in the context of a <Router> component.`,
+        invariant(
+            useInRouter(),
+            `<Navigate /> may be used only in the context of a <Router> component.`,
         )
+
+        const navigate = useNavigate()
+        const historyRef = useHistory()
 
         onMounted(() => {
             navigate(props.to, { replace: props.replace, state: props.state })
