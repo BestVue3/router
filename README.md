@@ -1,4 +1,4 @@
-![Coverage](https://img.shields.io/coveralls/github/pure-vue/router)
+![Coverage](https://img.shields.io/codecov/c/github/pure-vue/router)
 ![License](https://img.shields.io/npm/l/@pure-vue/router)
 ![Version](https://img.shields.io/npm/v/@pure-vue/router)
 
