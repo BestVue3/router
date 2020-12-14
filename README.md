@@ -19,6 +19,6 @@ See also:
 
 # Doc menu
 
--   [Get Start](./docs/en/get-start)
--   [Api Reference](./docs/en/api-reference)
--   [Examples](./docs/example)
+-   [Get Start](./tree/master/docs/en/get-start)
+-   [Api Reference](./tree/master/docs/en/api-reference)
+-   [Examples](./tree/master/docs/en/example)
