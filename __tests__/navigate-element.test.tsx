@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
-import { MemoryRouter as Router, Routes, Route, Navigate } from '..'
+import { MemoryRouter as Router, Routes, Route, Navigate } from '@'
 
 describe('navigate using an element', () => {
     describe('with an absolute href', () => {

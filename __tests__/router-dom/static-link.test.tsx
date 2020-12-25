@@ -14,7 +14,7 @@ test('static link', () => {
 //     useNavigate,
 //     useParams,
 //     useSearchParams,
-// } from '../..'
+// } from '@'
 
 // describe('A <StaticRouter>', () => {
 //   describe('with a <Link to> string', () => {

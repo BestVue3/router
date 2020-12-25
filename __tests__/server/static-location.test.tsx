@@ -1,6 +1,6 @@
 import { renderToString } from '@vue/server-renderer'
 import { defineComponent, VNode } from 'vue'
-import { Routes, Route, StaticRouter as Router, useLocation } from '../../'
+import { Routes, Route, StaticRouter as Router, useLocation } from '@'
 
 describe('A <StaticRouter>', () => {
     describe('with a string location prop', () => {

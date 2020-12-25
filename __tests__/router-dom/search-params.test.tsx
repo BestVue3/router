@@ -8,7 +8,7 @@ import {
     useNavigate,
     useParams,
     useSearchParams,
-} from '../..'
+} from '@'
 
 describe('useSearchParams', () => {
     const SearchPage = defineComponent({

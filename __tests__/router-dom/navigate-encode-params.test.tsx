@@ -7,7 +7,7 @@ import {
     Link,
     useNavigate,
     useParams,
-} from '../..'
+} from '@'
 
 describe('navigate with params', () => {
     describe('when navigate params are not already encoded', () => {

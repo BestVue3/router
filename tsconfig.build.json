@@ -10,7 +10,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "rootDir": "lib",
-    "outDir": ".tsc-output",
     "declaration": true,
     "baseUrl": ".",
     "types": [

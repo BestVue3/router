@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route } from '..'
+import { MemoryRouter as Router, Routes, Route } from '@'
 
 describe('A <Route>', () => {
     it('renders its `element` prop', () => {

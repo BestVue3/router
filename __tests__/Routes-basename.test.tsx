@@ -9,7 +9,7 @@ import {
     useParams,
     Outlet,
     useRoutes,
-} from '..'
+} from '@'
 
 const COMMENT_HTML = '<!---->'
 

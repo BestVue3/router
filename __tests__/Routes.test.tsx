@@ -1,6 +1,6 @@
 import { Fragment } from 'vue'
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route } from '..'
+import { MemoryRouter as Router, Routes, Route } from '@'
 
 describe('A <Routes>', () => {
     it('renders the first route that matches the URL', () => {

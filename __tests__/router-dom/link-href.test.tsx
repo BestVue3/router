@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route, Link } from '../..'
+import { MemoryRouter as Router, Routes, Route, Link } from '@'
 
 describe('Link href', () => {
     describe('absolute', () => {

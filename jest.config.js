@@ -1,12 +1,9 @@
-// module.exports = {
-//     preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
-//     transform: {
-//         '^.+\\.vue$': 'vue-jest',
-//     },
-//     globals: {
-//         __DEV__: true,
-//     },
-// }
+/**
+ * default test will use built files
+ */
+
+const usingSorce = !!process.env.SOURCE
+const __DEV__ = process.env.__DEV__ === false ? false : true
 
 module.exports = {
     testMatch: ['**/__tests__/**/*.+(ts|tsx)'],
@@ -14,8 +11,11 @@ module.exports = {
         // '\\.js$': './jest-transformer.js',
         '^.+\\.(ts|tsx)$': 'ts-jest',
     },
+    moduleNameMapper: {
+        '^@$': !usingSorce ? '<rootDir>' : '<rootDir>/lib',
+    },
     globals: {
-        __DEV__: true,
+        __DEV__,
         'ts-jest': {
             babelConfig: {
                 presets: [['@babel/preset-env']],

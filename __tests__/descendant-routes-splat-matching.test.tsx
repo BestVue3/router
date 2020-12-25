@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route, Outlet } from '..'
+import { MemoryRouter as Router, Routes, Route, Outlet } from '@'
 
 describe('Descendant <Routes> splat matching', () => {
     describe('when the parent route path ends with /*', () => {

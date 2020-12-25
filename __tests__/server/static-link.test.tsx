@@ -1,6 +1,6 @@
 import { renderToString } from '@vue/server-renderer'
 import { VNode } from 'vue'
-import { Link, StaticRouter as Router } from '../../'
+import { Link, StaticRouter as Router } from '@'
 
 describe('A <StaticRouter>', () => {
     describe('with a <Link to> string', () => {

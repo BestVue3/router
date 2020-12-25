@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils'
 import { Location } from 'history'
 import { defineComponent, nextTick } from 'vue'
-import { Router as BaseRouter, Routes, Route, Navigate, useNavigate } from '..'
+import { Router as BaseRouter, Routes, Route, Navigate, useNavigate } from '@'
 
 const Router: any = BaseRouter
 

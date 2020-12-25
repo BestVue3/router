@@ -1,4 +1,4 @@
 module.exports =
     process.env.NODE_ENV === 'production'
-        ? require('./dist/umd/pvue-router.production.min.js')
-        : require('./dist/umd/pvue-router.development.js')
+        ? require('./dist/bv3-router.cjs.prod.js')
+        : require('./dist/bv3-router.cjs')

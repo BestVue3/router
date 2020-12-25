@@ -1,4 +1,4 @@
-import { matchRoutes, RouteObject } from '..'
+import { matchRoutes, RouteObject } from '@'
 
 describe('path matching', () => {
     function pickPaths(routes: RouteObject[], pathname: string) {

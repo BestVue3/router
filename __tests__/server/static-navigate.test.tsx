@@ -1,6 +1,6 @@
 import { renderToString } from '@vue/server-renderer'
 import { VNode } from 'vue'
-import { Routes, Route, StaticRouter as Router, Navigate } from '../../'
+import { Routes, Route, StaticRouter as Router, Navigate } from '@'
 
 describe('A <Navigate> in a <StaticRouter>', () => {
     let consoleWarn: any

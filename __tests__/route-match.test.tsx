@@ -20,7 +20,7 @@ import {
     useParams,
     Outlet,
     useRoutes,
-} from '..'
+} from '@'
 
 describe('route matching', () => {
     function VueFundamentals() {

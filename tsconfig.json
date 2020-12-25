@@ -19,7 +19,10 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "paths": {
+      "@": ["lib"]
+    }
   },
   "include": [
     "lib/**/*.ts",
@@ -28,6 +31,8 @@
     "tests/**/*.tsx",
     "src/**/*.ts",
     "src/**/*.tsx",
+    "__tests__/**/*.ts",
+    "__tests__/**/*.tsx"
   ],
   "exclude": [
     "node_modules"
