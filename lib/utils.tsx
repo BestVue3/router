@@ -11,7 +11,7 @@ export function warning(cond: boolean, message: string): void {
         if (typeof console !== 'undefined') console.warn(message)
 
         try {
-            // Welcome to debugging @pure-vue/router (based on React-Router)!
+            // Welcome to debugging @bv3/router (based on React-Router)!
             //
             // This error is thrown as a convenience so you can more easily
             // find the source for a warning that appears in the console by
