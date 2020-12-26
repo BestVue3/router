@@ -7,7 +7,7 @@ A list of examples is available on codesanbox, you can also play with BestVue3 R
 > If you in China and can't open codesandbox, maybe you need to open a VPN.
 >
 > By now we can't edit eslint config in codesandbox, so the editor will show JSX syntax error
-> You can just ignore it.
+> [see discussions](https://github.com/codesandbox/codesandbox-client/discussions/5260)
 
 -   [Basic Example](https://codesandbox.io/s/pvrouter-example-basic-c0lp3)
 -   [Without Route Component](#TODO: demo)

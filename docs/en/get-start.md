@@ -103,7 +103,7 @@ function App() {
 
 ## Reading URL Parameters
 
-You can use dynamic `:id`-style segments in your `<Route path>` to extract values that you can use to fetch data or render something in your app. The [`useParams` hook](./api-reference.md#useparams) returns an object of key/value pairs of URL parameters.
+You can use dynamic `:id`-style segments in your `<Route path>` to extract values that you can use to fetch data or render something in your app. The [`useParams` hook](./api-reference.md#useparams) returns an `Ref` of object which contain key/value pairs of URL parameters.
 
 ```tsx
 import { Routes, Route, useParams } from '@bv3/router'
@@ -416,4 +416,4 @@ const Invoices = defineComponent({
 })
 ```
 
-And that's just about it! We haven't covered every API here, but these are definitely the most common ones you'll use. If you'd like to learn more, go ahead and follow [our tutorial](./tutorial) or browse [the full API reference](./api-reference.md).
+And that's just about it! We haven't covered every API here, but these are definitely the most common ones you'll use. If you'd like to learn more, go ahead and browse [the full API reference](./api-reference.md).

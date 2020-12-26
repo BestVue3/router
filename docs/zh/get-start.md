@@ -1,37 +1,38 @@
 <a name="top"></a>
 
-# Why another Router Library
+# 为什么另外一个路由库
 
-Vue community already had an official router library. So why another one?
+Vue 社区已经有一个官方的路由库了，为什么需要另外一个？
 
-The main reasoin is that we think Vue official is far too conservative. Vue3 contain a great composition API which have a lot of benefits then option API, but in order to be compatible with Vue2, Vue3 keep the option API and also Vue-Router will do the same thing.
+主要的原因在于我们觉得 Vue 官方太过于保守。Vue3 有一个非常棒的 compisition API，他比 option API 具有太多的优势，但是因为需要兼容 Vue2，
+Vue3 保留了 option API，并且 Vue-Router 也类似。这限制了 composition API 的发挥，比如*我们必须要通过对象来定义组件*等。
 
-In our opinion, option API is a **bad pratice** rather then a **not very good pratice**. So we decided to make some change for Vue3 community. It start with BestVue3 router, and it really just a start, we will try to do a lot things to improve the quality of Vue3 community in the future.
+在我们看来，option API 不仅仅是一个不太好的实践，更是一个差的实践方式。所以我们决定对 Vue3 社区做出一些改变。这会从 BestVue3 的 Router 库开始，并且这确实只是一个开始，未来我们会尝试去做更多的事来提升 Vue3 社区的开源质量。
 
-See also:
+更多:
 
--   [Why Jsx is a better choice then SFC](#TODO: url)
+-   [为什么使用 JSX 开发 Vue3 应用](https://www.bestvue3.com/blogs/why-jsx)
 -   [The best pratice of Vue3 effects](#TODO: url)
 
 <a name="start"></a>
 
 # Getting Started with BestVue3 Router
 
-BestVue3 Router is a fully-featured client and server-side routing library for Vue3, a JavaScript library for building user interfaces. BestVue3 Router runs on web browser and node.js server.
+BestVue3 Router 是一个功能完备的 Vue3 客户端和服务端路由组件，一个用来构建用户界面的 JS 库。BestVue3 Router 可以在网页端和 node.js 服务端运行。
 
 <a name="create"></a>
 
 ## Create a new BestVue3 Router app
 
-If you're just getting started with Vue3, we recommend you follow [best pratice to get start with Vue3](#URL). There is plenty of information there to get you up and running. BestVue3 Router is compatible with Vue3.
+如果你刚开始使用 Vue3，我们建议你先学习[开始 Vue3 的最佳实践](#URL)。那里有很多的信息来帮助你开始使用 Vue3。BestVue3 Router 只兼容 Vue3。
 
 <a name="intro"></a>
 
-## Introduction
+## 介绍
 
-The heart of BestVue3 Router is the concept of a _route_. A route represents a "page" in your app. BestVue3 Router represents routes internally with URLs, also called "locations". BestVue3 Router lets you declare VNodes that it renders when the user visits a route.
+BestVue3 Router 的核心是*route*的概念。路由代表着一个你应用中的"页面" 。BestVue3 Router 代表着内部包含 URLs 的路由器，也叫做"locations"。BestVue3 Router 让你定义用户访问路由渲染的 VNodes。
 
-A simple web app with two pages, "home" and "about" might look something like this:
+一个简单的有两个页面的网页应用，"home"和"about"可能看起来类似这样：
 
 ```tsx
 import { createApp } from 'vue'
@@ -56,17 +57,17 @@ createApp(() => (
 )).mount('#aa')
 ```
 
-The [`<Router>` element](./api-reference.md#router) provides information about the current [location]../api-reference.md#location) to the rest of its descendants. This example uses a [`<BrowserRouter>`](./api-reference.md#browserrouter). You should only ever render a single `<Router>` at or near the root of your component hierarchy.
+[`<Router>` element](./api-reference.md#router)提供当前[location]../api-reference.md#location)的信息给剩余的后代。这个例子使用[`<BrowserRouter>`](./api-reference.md#browserrouter)。你应该只渲染一个唯一的`<Router>`在你的根组件附近。
 
-The [`<Routes>` element](./api-reference.md#routes) is where you declare what routes you have and what element each [`<Route>` element](./api-reference.md#route) renders when the location matches its `path`.
+[`<Routes>` element](./api-reference.md#routes)是你用来定义有哪些路由以及当路由匹配当前路径时这个[`<Route>` element](./api-reference.md#route)应该渲染什么内容。
 
-The remaining examples in this guide assume you are importing Vue3 and rendering an `<App>` element inside a `<Router>`, but to be brief we'll just show the `<Routes>` you'll need for that example.
+在这篇教程的接下去的例子中我们预设你已经引入来 Vue3 并且在`<Router>`内渲染`<App>`节点，所以我们简明地只展示需要的`<Routes>`内容。
 
 <a name="navigation"></a>
 
-## Navigation
+## 导航
 
-BestVue3 Router provides [a `Link` component](./api-reference.md#link) that you can use to let the user [navigate]../api-reference.md#navigation) around the app.
+BestVue3 Router 提供了[一个 `Link` 组件](./api-reference.md#link)你可以用来让你的用户在不同的页面之间[导航]../api-reference.md#navigation)
 
 ```tsx
 import { Routes, Route, Link } from '@bv3/router'
@@ -101,9 +102,9 @@ function App() {
 
 <a name="params"></a>
 
-## Reading URL Parameters
+## 读取路径参数
 
-You can use dynamic `:id`-style segments in your `<Route path>` to extract values that you can use to fetch data or render something in your app. The [`useParams` hook](./api-reference.md#useparams) returns an object of key/value pairs of URL parameters.
+你可以在你的`<Route path>` 使用动态的`:id`-类似部分来提取值用来请求数据或者渲染一些内容。[`useParams` hook](./api-reference.md#useparams)返回一个`Ref`对象，其`value`是一个包含路径参数的对象。
 
 ```tsx
 import { Routes, Route, useParams } from '@bv3/router'
@@ -126,11 +127,11 @@ function App() {
 
 <a name="ranking"></a>
 
-## Ambiguous Paths and Ranking
+## 模糊路径和打分
 
-When determining which route to render, the `Routes` element picks the route with the path that best matches the current location, which is usually the path that is the most specific.
+当确定哪个路由来渲染的时候，`Routes`节点选择和当前位置最匹配的路径，通常是哪些更明确的路径。
 
-For example, a route with `path="invoices/sent"` may match only `/invoices/sent`, so it is more specific than `path="invoices/:invoiceId"` which matches any URL that begins with `/invoices` (`/invoices/123`, `/invoices/cupcakes`, etc). You can organize your code however you'd like and put the routes in whatever order makes the most sense to you.
+比如，`path="invoices/sent"`只会匹配`/invoices/sent`，所以他比`path="invoices/:invoiceId"`在匹配以`/invoices` (`/invoices/123`, `/invoices/cupcakes`, 等)开头的 URL 时更加明确。你可以根据你的喜好按照任意顺序组织你的代码。
 
 ```tsx
 import { Routes, Route, useParams } from '@bv3/router'
@@ -156,9 +157,11 @@ function App() {
 
 <a name="nesting"></a>
 
-## Nested Routes
+## 嵌套路由
 
 Routes may be nested inside one another, and their paths will nest too. Components that are used higher in the route hierarchy may render [an `<Outlet>` element](./api-reference.md#outlet) to render their child routes.
+
+路由可以是嵌套的，他们的路径也会是嵌套的。高层级的路由渲染的组件需要渲染[一个 `<Outlet>` 节点](./api-reference.md#outlet)来让他们的子路由可以被渲染。
 
 ```tsx
 import { Routes, Route, Outlet } from '@bv3/router'
@@ -169,9 +172,8 @@ function Invoices() {
             <h1>Invoices</h1>
 
             {/*
-        This element renders the element for the child route, which in
-        this case will be either <SentInvoices> or <IndividualInvoice>
-      */}
+                这个节点渲染他的子路由，在这个例子中可能是 <SentInvoices> 或者 <IndividualInvoice>
+            */}
             <Outlet />
         </div>
     )
@@ -200,7 +202,7 @@ function App() {
 }
 ```
 
-Notice in the example above how nested route paths build on their parent path. This nesting behavior can be really useful for creating [navigation](./api-reference.md#navigation) and layouts where the surrounding UI remains consistent while the inner content changes between routes.
+注意在上面这个例子中路由是如何嵌套在父路由中的。这个嵌套的行为在创建[导航](./api-reference.md#navigation)和容器不变子内容根据路由变化的布局的时候非常有用。
 
 ```tsx
 import { Routes, Route, Link, Outlet } from '@bv3/router'
@@ -242,9 +244,9 @@ function App() {
 
 <a name="relative-links"></a>
 
-## Relative Links
+## 相对的链接
 
-Relative `<Link to>` values (that do not begin with a `/`) are relative to the path of the route that rendered them. The two links below will link to `/dashboard/invoices` and `/dashboard/team` because they're rendered inside of `<Dashboard>`. This is really nice when you change a parent's URL or re-arrange your components because all of your links automatically update.
+相对的`<Link to>`值(不以`/`开始) 是相对于渲染他们的路由的路径的。下面的两个链接指向`/dashboard/invoices`和`/dashboard/team`因为他们都是在`<Dashboard>`下渲染的。这在你修改父路径或者重新安排你的组件结构的时候非常好用因为所有你的链接自动会更新。
 
 ```tsx
 import { Routes, Route, Link, Outlet } from '@bv3/router'
@@ -289,9 +291,11 @@ function App() {
 
 <a name="index-routes"></a>
 
-## Index Routes
+## 主路由
 
 Nested routes may use `path="/"` to indicate they should render at the path of the parent component. You can think about these routes like index pages for the rest of the child routes.
+
+嵌套路由可以使用`path="/"`来表明他们应该在他的父路由的路径下渲染。你可以认为这些路由就像其他子路由的主页。
 
 ```tsx
 function App() {
@@ -309,9 +313,11 @@ function App() {
 
 <a name="not-found-routes"></a>
 
-## "Not Found" Routes
+## "Not Found" 路由
 
 When no other route matches the URL, you can render a "not found" route using `path="*"`. This route will match any URL, but will have the weakest precedence so the router will only pick it if no other routes match.
+
+当没有其他路由匹配的时候，你可以使用`path="*"`渲染一个"not found"路由。这个路由会匹配任何 URL，但也会具有最弱的优先级，所以路由器只会在找不到其他匹配的路由的情况下选择他。
 
 ```tsx
 function App() {
@@ -327,9 +333,9 @@ function App() {
 
 <a name="multiple-sets-of-routes"></a>
 
-## Multiple Sets of Routes
+## 多组路由
 
-Although you should only ever have a single `<Router>` in an app, you may have as many [`<Routes>`](./api-reference.md#routes) as you need, wherever you need them. Each `<Routes>` element operates independently of the others and picks a child route to render.
+虽然在你的应用中应该只有一个`<Router>`，你可以根据需要有多个[`<Routes>`](./api-reference.md#routes)。每个`<Routes>`独立地选择子路由进行渲染。
 
 ```tsx
 function App() {
@@ -362,9 +368,9 @@ function App() {
 
 <a name="descendant-routes"></a>
 
-## Descendant Routes
+## 后辈路由集合
 
-You can render [a `<Routes>` element](./api-reference.md#routes) anywhere you need one, including deep within the component tree of another `<Routes>`. These will work just the same as any other `<Routes>`, except they will automatically build on the path of the route that rendered them. If you do this, _make sure to put a \* at the end of the parent route's path_. Otherwise the parent route won't match the URL when it is longer than the parent route's path, and your descendant `<Routes>` won't ever show up.
+你可以在任何你需要的地方渲染[`<Routes>` 节点](./api-reference.md#routes)，包括在其他`<Routes>`的子树中。除了他们会自动在渲染他们的路由的基础上构建路径之外，他们跟其他`<Routes>`一样正常工作。如果你需要这么做，_请确保在父路由的路径最后放上\*_。不然的话父路由不会匹配比他路径长的 URL，你的后辈`<Routes>`永远不会展示。
 
 ```tsx
 function Dashboard() {
@@ -391,10 +397,12 @@ function App() {
 
 <a name="navigating"></a>
 
-## Navigating Programmatically
+## 编程式的导航
 
 If you need to navigate programmatically (like after the user submits a form),
 use [the `useNavigate` hook](./api-reference.md#usenavigate) to get a function you can use to navigate.
+
+如果你需要编程式地导航（比如在用户提交表单之后），使用[`useNavigate` 钩子](./api-reference.md#usenavigate)来获取一个函数帮你进行导航。
 
 ```tsx
 import { useNavigate } from '@bv3/router'
@@ -416,4 +424,4 @@ const Invoices = defineComponent({
 })
 ```
 
-And that's just about it! We haven't covered every API here, but these are definitely the most common ones you'll use. If you'd like to learn more, go ahead and follow [our tutorial](./tutorial) or browse [the full API reference](./api-reference.md).
+以上！这里我们还没有覆盖所有的 API，但是这些绝对是最通用的场景。如果你想要再深入学习，你可以查看[完整的 API 文档](./api-reference.md)。

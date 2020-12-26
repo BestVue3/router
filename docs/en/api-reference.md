@@ -2,11 +2,11 @@
 
 # BestVue3 Router API Reference
 
-BestVue3 Router is a collection of [Vue3 components](https://v3.vuejs.org/guide/component-registration.html), [Composition API(also known as hooks)](https://v3.vuejs.org/api/composition-api.html) and utilities that make it easy to build multi-page applications with [Vue3](https://v3.vuejs.org). This reference contains the function signatures and return types of the various interfaces in BestVue3 Router.
+BestVue3 Router is a collection of [Vue3 components](https://v3.vuejs.org/guide/component-registration.html), [Composition API(also known as hooks)](https://v3.vuejs.org/api/composition-api.html) and utilities that make it easy to build multi-page applications with [Vue3](https://v3.vuejs.org). This reference contains the component props declaration, function signatures and return types of the various interfaces in BestVue3 Router.
 
 > [!Tip:]
 >
-> Please refer to [our guides](./advanced-guides) for more in-depth usage
+> Please refer to [our examples](./examples) for more in-depth usage
 > examples of how you can use BestVue3 Router to accomplish specific tasks.
 
 <a name="overview"></a>
@@ -17,7 +17,7 @@ BestVue3 Router is a collection of [Vue3 components](https://v3.vuejs.org/guide/
 
 ### Install
 
-BestVue3 Router is published to npm in three different packages:
+BestVue3 Router is published to npm named `@bv3/router`:
 
 ```bash
 npm i @bv3/router -S
@@ -63,7 +63,7 @@ A few low-level pieces that we use internally are also exposed as public API, in
 
 BestVue3 Router's navigation interfaces let you change the currently rendered page by modifying the current [location](#location). There are two main interfaces for navigating between pages in your app, depending on what you need.
 
--   [`<Link>`](#link) and render an accessible `<a>` element. This lets the user initiate navigation by clicking an element on the page.
+-   [`<Link>`](#link) render an accessible `<a>` element. This lets the user initiate navigation by clicking an element on the page.
 -   [`useNavigate`](#usenavigate) and [`<Navigate>`](#navigate) let you programmatically navigate, usually in an event handler or in response to some change in state
 
 There are a few low-level APIs that we use internally that may also prove useful when building your own navigation interfaces.
@@ -332,8 +332,8 @@ function Dashboard() {
             <h1>Dashboard</h1>
 
             {/* This element will render either <DashboardMessages> when the URL is
-          "/messages", <DashboardTasks> at "/tasks", or null if it is "/"
-      */}
+                "/messages", <DashboardTasks> at "/tasks", or null if it is "/"
+            */}
             <Outlet />
         </div>
     )
@@ -465,7 +465,7 @@ For example, in the following config the parent route renders an `<Outlet>` by d
 >
 > The example before use JSX as syntax, in JSX pass VNode is really easy
 > But we guess lots of developer still prefer SFC in a long time
-> So we provide slot way to pass element
+> So we provide slot way to pass `element`
 
 ```html
 <template>

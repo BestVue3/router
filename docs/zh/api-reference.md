@@ -1,13 +1,14 @@
 <a name="top"></a>
 
-# BestVue3 Router API Reference
+# BestVue3 Router API 文档
 
 BestVue3 Router is a collection of [Vue3 components](https://v3.vuejs.org/guide/component-registration.html), [Composition API(also known as hooks)](https://v3.vuejs.org/api/composition-api.html) and utilities that make it easy to build multi-page applications with [Vue3](https://v3.vuejs.org). This reference contains the function signatures and return types of the various interfaces in BestVue3 Router.
 
-> [!Tip:]
+BestVue3 Router 是一系列帮助构建 Vue3 多页应用的[Vue3 组件](https://v3.vuejs.org/guide/component-registration.html)，[Composition API(也有叫 hooks)](https://v3.vuejs.org/api/composition-api.html)和工具方法集合。这个文档包含 BestVue3 Router 中包含的组件的 Props 定义，函数签名以及返回类型。
+
+> [!提示:]
 >
-> Please refer to [our guides](./advanced-guides) for more in-depth usage
-> examples of how you can use BestVue3 Router to accomplish specific tasks.
+> 你可以前往 [examples 页面] ](./examples.md) 来查看更多具有代表性的如何深度使用 BestVue3 Router 的例子
 
 <a name="overview"></a>
 
@@ -17,7 +18,7 @@ BestVue3 Router is a collection of [Vue3 components](https://v3.vuejs.org/guide/
 
 ### Install
 
-BestVue3 Router is published to npm in three different packages:
+BestVue3 Router 在 npm 的包名为`@bv3/router`:
 
 ```bash
 npm i @bv3/router -S
@@ -31,61 +32,61 @@ yarn add @bv3/router
 
 <a name="setup"></a>
 
-### Setup
+### 配置
 
-To get BestVue3 Router working in your app, you need to render a router element at or near the root of your element tree. We provide several different routers, depending on where you're running your app.
+想要在你的应用里面使用 BestVue3 Router，你需要在你的根节点附近渲染一个 _路由器(router)_ 节点。我们提供了几种不同的路由器，你可以根据你的需要场景来使用。
 
--   [`<BrowserRouter>`](#browserrouter) or [`<HashRouter>`](#hashrouter) should be used when running in a web browser. Which one you pick depends on the style of URL you prefer or need.
--   [`<StaticRouter>`](#staticrouter) should be used when server-rendering a website
--   [`<MemoryRouter>`](#memoryrouter) is useful in testing scenarios and as a reference implementation for the other routers
+-   [`<BrowserRouter>`](#browserrouter) or [`<HashRouter>`](#hashrouter) 应该在浏览器中使用。具体选择哪个在于你希望你的 URL 如何呈现。
+-   [`<StaticRouter>`](#staticrouter) 应该在服务端渲染的时候使用
+-   [`<MemoryRouter>`](#memoryrouter) 在测试场景非常有用，他是一个参考其他路由器的实现。
 
-These routers provide the context that BestVue3 Router needs to operate in a particular environment. Each one renders [a `<Router>`](#router) internally, which you may also do if you need more fine-grained control for some reason. But it is highly likely that one of the built-in routers is what you need.
+这些路由器提供为 BestVue3 Router 在不同的环境运行提供上下文。他们都在内部渲染[一个`<Router>`](#router)节点，你也可以使用`<Router>`如果你希望更加细粒度地控制路由器。但是大概率内置的路由器就是你需要的了。
 
 <a name="routing"></a>
 
-### Routing
+### 路由
 
-Routing is the process of deciding which BestVue3 elements will be rendered on a given page of your app, and how they will be nested. BestVue3 Router provides two interfaces for declaring your routes.
+路由决定了在你的应用中某个页面应该渲染哪个 BestVue3 的节点，以及他们如何嵌套。BestVue3 Router 提供两种方式来声明你的路由路线。
 
--   [`<Routes>` and `<Route>`](#routes-and-route) if you're using components
--   [`useRoutes`](#useroutes) if you'd prefer a JavaScript object-based config
+-   [`<Routes>` and `<Route>`](#routes-and-route) 如果你希望使用组件
+-   [`useRoutes`](#useroutes) 如果你更喜欢使用 JS 对象
 
-A few low-level pieces that we use internally are also exposed as public API, in case you need to build your own higher-level interfaces for some reason.
+如果你有需要构建你自己的高级接口，一些我们内部使用的低级 API 同样在开放 API 中导出了。
 
--   [`matchPath`](#matchpath) - matches a path pattern against a URL pathname
--   [`matchRoutes`](#matchroutes) - matches a set of routes against a [location](#location)
--   [`createRoutesFromArray`](#createroutesfromarray) - creates a route config from a set of plain JavaScript objects
--   [`createRoutesFromChildren`](#createroutesfromchildren) - creates a route config from a set of VNodeChild (i.e. [`<Route>`](#route) elements)
+-   [`matchPath`](#matchpath) - 根据 URL 匹配路径
+-   [`matchRoutes`](#matchroutes) - 根据[location](#location)匹配一系列路由路线
+-   [`createRoutesFromArray`](#createroutesfromarray) - 根据一组 JS 对象生成路由配置
+-   [`createRoutesFromChildren`](#createroutesfromchildren) - 根据一组 VNodeChild 节点(也即 [`<Route>`](#route) 节点)创建路由配置
 
 <a name="navigation"></a>
 
 ### Navigation
 
-BestVue3 Router's navigation interfaces let you change the currently rendered page by modifying the current [location](#location). There are two main interfaces for navigating between pages in your app, depending on what you need.
+BestVue3 Router 的导航接口让你可以通过修改当前的位置信息来切换当前渲染的页面。根据你的需求，我们提供了两种主要的导航方式。
 
--   [`<Link>`](#link) and render an accessible `<a>` element. This lets the user initiate navigation by clicking an element on the page.
--   [`useNavigate`](#usenavigate) and [`<Navigate>`](#navigate) let you programmatically navigate, usually in an event handler or in response to some change in state
+-   [`<Link>`](#link) 渲染一个无障碍的`<a>`节点。这让用户通过点击页面上的节点来切换路由。
+-   [`useNavigate`](#usenavigate) and [`<Navigate>`](#navigate) 让你可以以变成的方式来导航，通常在事件处理器或者一些状态变化之后使用。
 
-There are a few low-level APIs that we use internally that may also prove useful when building your own navigation interfaces.
+如果你需要构建你自己的导航接口，我们也提供了一些低级 API。
 
--   [`useResolvedPath`](#useresolvedpath) - resolves a relative path against the current [location](#location)
--   [`useHref`](#usehref) - resolves a relative path suitable for use as a `<a href>`
--   [`resolvePath`](#resolvepath) - resolves a relative path against a given URL pathname
+-   [`useResolvedPath`](#useresolvedpath) - 根据当前位置信息决定一个相对路径的最终路径[location](#location)
+-   [`useHref`](#usehref) - 决定一个相对路径适用于`<a href>`
+-   [`resolvePath`](#resolvepath) - 根据给定的 URL 地址决定一个相对路径
 
 <a name="confirming-navigation"></a>
 
-### Confirming Navigation
+### 导航二次确认
 
-Sometimes you need to confirm navigation before it actually happens. For example, if the user has entered some data into a form on the current page, you may want to prompt them to save the data before they navigate to a different page.
+有时候在在进行导航之前你需要进行二次确认。比如说，如果你的用户已经在当前页面的表单中输入了一些内容，你应该希望在他们跳转到其他页面之前提醒他们保存数据。
 
--   [`usePrompt`](#useprompt) and [`<Prompt>`](#prompt) trigger a platform-native confirmation prompt when the user tries to navigate away from the current page
--   [`useBlocker`](#useblocker) is a low-level interface that lets you keep the user on the same page and execute a function that will be called when they try to navigate away
+-   [`usePrompt`](#useprompt) and [`<Prompt>`](#prompt) 当用户想要从当前页面跳转时触发一个平台原生的提示
+-   [`useBlocker`](#useblocker) 是一个低级 API，他让你在用户想要跳转的时候保持页面不动，并且执行一个你给定的函数。
 
 <a name="search-parameters"></a>
 
 ### Search Parameters
 
-Access to the URL [search parameters](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams) is provided via [the `useSearchParams` hook](#usesearchparams).
+通过[the `useSearchParams` hook](#usesearchparams)调用 URL 的[搜索参数](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams)。
 
 ---
 
@@ -98,7 +99,7 @@ Access to the URL [search parameters](https://developer.mozilla.org/en-US/docs/W
 ### `<BrowserRouter>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const BrowserRouterProps = {
@@ -108,16 +109,18 @@ const BrowserRouterProps = {
 
 </details>
 
-`<BrowserRouter>` is the recommended interface for running BestVue3 Router in a web browser. A `<BrowserRouter>` stores the current location in the browser's address bar using clean URLs and navigates using the browser's built-in history stack.
+在浏览器环境中，`<BrowserRouter>`是更推荐的接口。一个`<BrowserRouter>` 保存浏览器地址栏中当前的位置信息，并且通过浏览器原生的 history 栈来进行导航切换。
 
 `<BrowserRouter window>` defaults to using the current [document's `defaultView`](https://developer.mozilla.org/en-US/docs/Web/API/Document/defaultView), but it may also be used to track changes to another's window's URL, in an `<iframe>`, for example.
+
+`<BrowserRouter window>`默认使用当前的[文档的 `defaultView`](https://developer.mozilla.org/en-US/docs/Web/API/Document/defaultView)，但他同样可以用来追踪其他窗口的变化，比如一个`<iframe>`。
 
 ```tsx
 import { createApp } from 'vue'
 
-createApp(() => (
-    <BrowserRouter>{/* The rest of your app goes here */}</BrowserRouter>
-)).mount('#app')
+createApp(() => <BrowserRouter>{/* 你的APP在这里渲染 */}</BrowserRouter>).mount(
+    '#app',
+)
 ```
 
 <a name="hashrouter"></a>
@@ -125,7 +128,7 @@ createApp(() => (
 ### `<HashRouter>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const HashRouterProps = {
@@ -135,16 +138,16 @@ const HashRouterProps = {
 
 </details>
 
-`<HashRouter>` is for use in web browsers when the URL should not (or cannot) be sent to the server for some reason. This may happen in some shared hosting scenarios where you do not have full control over the server. In these situations, `<HashRouter>` makes it possible to store the current location in the `hash` portion of the current URL, so it is never sent to the server.
+`<HashRouter>`会在浏览器 URL 不应该（或者不能）发送到服务器的场景下使用。这会发生在你不能完全控制服务器的情况下。在这种情况下，`<HashRouter>`可以把当前位置信息存储在 URL 的`hash`部分，所以不会请求服务端。
 
-`<HashRouter window>` defaults to using the current [document's `defaultView`](https://developer.mozilla.org/en-US/docs/Web/API/Document/defaultView), but it may also be used to track changes to another window's URL, in an `<iframe>`, for example.
+`<HashRouter window>`默认使用当前的[文档的 `defaultView`](https://developer.mozilla.org/en-US/docs/Web/API/Document/defaultView)，但他同样可以用来追踪其他窗口的变化，比如一个`<iframe>`。
 
 ```tsx
 import { createApp } from 'vue'
 
-createApp(() => (
-    <HashRouter>{/* The rest of your app goes here */}</HashRouter>
-)).mount('#app')
+createApp(() => <HashRouter>{/* 你的APP在这里渲染 */}</HashRouter>).mount(
+    '#app',
+)
 ```
 
 <a name="memoryrouter"></a>
@@ -152,7 +155,7 @@ createApp(() => (
 ### `<MemoryRouter>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 export const MemoryRouterProps = {
@@ -167,14 +170,15 @@ export const MemoryRouterProps = {
 
 A `<MemoryRouter>` stores its locations internally in an array. Unlike `<BrowserHistory>` and `<HashHistory>`, it isn't tied to an external source, like the history stack in a browser. This makes it ideal for scenarios where you need complete control over the history stack, like testing.
 
--   `<MemoryRouter initialEntries>` defaults to `["/"]` (a single entry at the root `/` URL)
--   `<MemoryRouter initialIndex>` defaults to the last index of `props.initialEntries`
+一个`<MemoryRouter>`把位置信息存储在内部的数组里面。跟`<BrowserHistory>` 和 `<HashHistory>`不同，他并不绑定到任何类似浏览器的 history 栈这样的外部资源上。这对于一些你希望完全控制 history 栈的情况非常得理想，比如测试场景。
 
-> [!Tip:]
+-   `<MemoryRouter initialEntries>` 默认是 `["/"]` (单一入口的根 `/` URL)
+-   `<MemoryRouter initialIndex>` 默认是 `props.initialEntries` 上的最后一个。
+
+> [!提示:]
 >
-> Most of BestVue3 Router's tests are written using a `<MemoryRouter>` as the
-> source of truth, so you can see some great examples of using it by just
-> [browsing through our tests](https://github.com/BestVue3/router/tree/master/lib/__tests__).
+> 大部分 BestVue3 Router 的测试是通过`<MemoryRouter>`实现的，
+> 所以你可以通过[查看我们的测试用例](https://github.com/BestVue3/router/tree/master/lib/__tests__).看到很多非常棒的例子
 
 ```tsx
 import { mount } from '@vue/test-utils'
@@ -201,7 +205,7 @@ describe('My app', () => {
 ### `<Link>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const LinkProps = {
@@ -221,7 +225,7 @@ const LinkProps = {
 
 </details>
 
-A `<Link>` is an element that lets the user navigate to another page by clicking or tapping on it. A `<Link>` renders an accessible `<a>` element with a real `href` that points to the resource it's linking to. This means that things like right-clicking a `<Link>` work as you'd expect.
+一个`<Link>`让用户可以通过点击或者触碰他来导航到另外一个页面。一个`<Link>`渲染一个具有真实指向目标资源`href`的无障碍的`<a>`节点。这意味着在`<Link>`上的右键操作可以正常工作。
 
 ```tsx
 import { Link } from '@bv3/router'
@@ -243,21 +247,20 @@ function UsersIndexPage({ users }) {
 }
 ```
 
-A relative `<Link to>` value (that does not begin with `/`) resolves relative to the parent route, which means that it builds upon the URL path that was matched by the route that rendered that `<Link>`. It may contain `..` to link to routes further up the hierarchy. In these cases, `..` works exactly like the command-line `cd` function; each `..` removes one segment of the parent path.
+一个相对的`<Link to>`值（不以`/`开始）由他的父路由决定，这意味着他的路径是在渲染这个`<Link>`节点的路由节点的基础上构建的。他可以包含`..`来链接到上级的路由。在这些场景下，`..`和命令行的`cd`函数工作方式一摸一样；每个`..`删除一断父路径。
 
-> [!Note:]
+> [!注意:]
 >
-> `<Link to>` with a `..` behaves differently from a normal `<a href>` when the
-> current URL ends with `/`. `<Link to>` ignores the trailing slash, and removes
-> one URL segment for each `..`. But an `<a href>` value handles `..` differently
-> when the current URL ends with `/` vs when it does not.
+> 包含`..`的`<Link to>`和普通的`<a href>`在当前 URL 以`/`结尾的时候行为不一样。
+> `<Link to>`会忽略斜杠然后每个`..`会删除一段 URL。
+> 但是`<a href>`在当前 URL 是否以`/`结尾的情况处理`..`的方式不一样。
 
 <a name="navigate"></a>
 
 ### `<Navigate>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const NavigateProps = {
@@ -274,7 +277,7 @@ const NavigateProps = {
 
 </details>
 
-A `<Navigate>` element changes the current location when it is rendered. It's a component wrapper around [`useNavigate`](#usenavigate), and accepts all the same arguments as props.
+一个`<Navigate>`节点在他渲染的时候就会渲染当前的位置。他是[`useNavigate`](#usenavigate)的一个包装，并且接收所有相同的参数。
 
 ```tsx
 import { Navigate } from '@bv3/router'
@@ -315,7 +318,7 @@ const LoginForm = defineComponent({
 ### `<Outlet>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const OutletProps = {} as const
@@ -323,7 +326,7 @@ const OutletProps = {} as const
 
 </details>
 
-An `<Outlet>` should be used in parent route elements to render their child route elements. This allows nested UI to show up when child routes are rendered. If the parent route matched exactly, it will render nothing.
+一个`<Outlet>`应该用在父路由节点中用来渲染他们的子路由节点。这允许嵌套的 UI 在子路由渲染的时候得以展现。如果父路由完全匹配，则他不会渲染任何内容。
 
 ```tsx
 function Dashboard() {
@@ -331,9 +334,10 @@ function Dashboard() {
         <div>
             <h1>Dashboard</h1>
 
-            {/* This element will render either <DashboardMessages> when the URL is
-          "/messages", <DashboardTasks> at "/tasks", or null if it is "/"
-      */}
+            {/* 这个节点在URL是"/messages"时渲染<DashboardMessages>，
+                在URL是"/tasks"时渲染<DashboardTasks>，
+                在URL是"/"时渲染null
+            */}
             <Outlet />
         </div>
     )
@@ -356,7 +360,7 @@ function App() {
 ### `<Prompt>`
 
 <details>
-  <summary>Prompt declaration</summary>
+  <summary>Prompt 定义</summary>
 
 ```tsx
 const PromptProps = {
@@ -370,14 +374,14 @@ const PromptProps = {
 
 </details>
 
-A `<Prompt>` is the declarative version of [`usePrompt`](#useprompt). It doesn't render anything. It just calls `usePrompt` with its props.
+`<Prompt>`是声明式版本的[`usePrompt`](#useprompt)。他不渲染任何内容。他只通过他的 props 来调用`usePrompt`
 
 <a name="router"></a>
 
 ### `<Router>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const RouterProps = {
@@ -401,9 +405,9 @@ const RouterProps = {
 
 </details>
 
-`<Router>` is the low-level interface that is shared by all router components ([`<BrowserRouter>`](#browserrouter), [`<HashRouter>`](#hashrouter), [`<StaticRouter>`](#staticrouter). In terms of Vue3, `<Router>` is a [context provider](https://v3.vuejs.org/api/composition-api.html#provide-inject) that supplies routing information to the rest of the app.
+`<Router>` 是所有路由器([`<BrowserRouter>`](#browserrouter), [`<HashRouter>`](#hashrouter), [`<StaticRouter>`](#staticrouter)组件共享的接口。在 Vue3 中，`<Router>`是一个给整个 APP 提供路由上下文信息的[context provider](https://v3.vuejs.org/api/composition-api.html#provide-inject)
 
-You probably never need to render a `<Router>` manually. Instead, you should use one of the higher-level routers depending on your environment. You only ever need one router in a given app.
+你也许永远不需要手动渲染一个`<Router>`。你应该根据你的场景使用一个高级路由器。你在你的应用中永远只需要一个路由器。
 
 <a name="routes"></a>
 <a name="route"></a>
@@ -412,7 +416,7 @@ You probably never need to render a `<Router>` manually. Instead, you should use
 ### `<Routes>` and `<Route>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const RoutesProps = {
@@ -432,9 +436,11 @@ const RouteProps = {
 
 </details>
 
-`<Routes>` and `<Route>` are the primary ways to render something in BestVue3 Router based on the current [`location`](#location). You can think about a `<Route>` kind of like an `if` statement; if its `path` matches the current URL, it renders its `element` prop or slot! The `<Route caseSensitive>` prop determines if the matching should be done in a case-sensitive manner (defaults to `false`).
+`<Routes>` 和 `<Route>`是在 BestVue3 Router 中基于当前[`location`](#location)渲染一些内容的主要方式。你可以认为一个`<Route>`类似一个`if`条件判断；如果他的`path`匹配当前的 URL，他会渲染他的`element`属性或者插槽！`<Route caseSensitive>`属性决定匹配方式是否应该大小写敏感（默认为`false`）。
 
 Whenever the location changes, `<Routes>` looks through all its `children` `<Route>` elements to find the best match and renders that branch of the UI. `<Route>` elements may be nested to indicate nested UI, which also correspond to nested URL paths. Parent routes render their child routes by rendering an [`<Outlet>`](#outlet).
+
+每当位置变化，`<Routes>`会从所有的`children` `<Route>`中查找节点定最匹配的并渲染其 UI。`<Route>` 节点可以是嵌套来表示嵌套 UI，同时也表示嵌套的 URL 路径。父路由通过[`<Outlet>`](#outlet)来渲染他们的子路由。
 
 ```tsx
 <Routes>
@@ -446,14 +452,15 @@ Whenever the location changes, `<Routes>` looks through all its `children` `<Rou
 </Routes>
 ```
 
-> [!Note:]
+> [!注意:]
 >
-> If you'd prefer to define your routes as regular JavaScript objects instead
-> of using JSX, [try `useRoutes` instead](#useroutes).
+> 如果相比 JSX 你更喜欢通过 JS 对象来定义你的路由，[尝试`useRoutes`](#useroutes)
 
-The default `<Route element>` is an [`<Outlet>`](#outlet). This means the route will still render its children even without an explicit `element` prop, so you can nest route paths without nesting UI around the child route elements.
+默认的`<Route element>`是一个 [`<Outlet>`](#outlet)。这意味着即便没有声明`element`属性，路由仍然会渲染他们的子节点，所以你可以不需要嵌套 UI 也可以嵌套路由路径。
 
 For example, in the following config the parent route renders an `<Outlet>` by default, so the child route will render without any surrounding UI. But the child route's path is `/users/:id` because it still builds on its parent.
+
+举个例子，在下面的配置中父路由默认渲染一个`<Outlet>`，所以他的子路由在没有其他 UI 包含的情况下仍然会渲染。但是子路由的路径是`/users/:id`因为他的路径仍然是在父路由的基础上构建的。
 
 ```tsx
 <Route path="users">
@@ -461,11 +468,11 @@ For example, in the following config the parent route renders an `<Outlet>` by d
 </Route>
 ```
 
-> [!Note:]
+> [!注意:]
 >
-> The example before use JSX as syntax, in JSX pass VNode is really easy
-> But we guess lots of developer still prefer SFC in a long time
-> So we provide slot way to pass element
+> 之前的例子都是使用 JSX 作为语法，在 JSX 中传递 VNode 非常的简单
+> 但是我们认为在很长一段时间里，很多开发者仍然会选择使用 SFC 进行开发
+> 所哟我们提供了 slot 方式来传递`element`
 
 ```html
 <template>
@@ -494,7 +501,7 @@ For example, in the following config the parent route renders an `<Outlet>` by d
 ### `<StaticRouter>`
 
 <details>
-  <summary>Props declaration</summary>
+  <summary>Props 定义</summary>
 
 ```tsx
 const StaticRouterProps = {
@@ -507,9 +514,7 @@ const StaticRouterProps = {
 
 </details>
 
-`<StaticRouter>` is used to render a BestVue3 Router web app in [node](https://nodejs.org). Provide the current location via the `location` prop.
-
--   `<StaticRouter location>` defaults to `"/"`
+`<StaticRouter>`是用来在[node](https://nodejs.org)环境中渲染 BestVue3 Router 前端应用的。通过`location`属性来提供当前的位置。`<StaticRouter location>` 默认路径是 `"/"`
 
 ```tsx
 import { renderToString } from '@vue/server-renderer'
@@ -518,9 +523,7 @@ import http from 'http'
 
 async function requestHandler(req, res) {
     let html = await renderToString(
-        <StaticRouter location={req.url}>
-            {/* The rest of your app goes here */}
-        </StaticRouter>,
+        <StaticRouter location={req.url}>{/* 你的应用在这里 */}</StaticRouter>,
     )
 
     res.write(html)
@@ -535,7 +538,7 @@ http.createServer(requestHandler).listen(3000)
 ### `createRoutesFromArray`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function createRoutesFromArray(
@@ -559,14 +562,14 @@ interface RouteObject {
 
 </details>
 
-`createRoutesFromArray` is a helper that fills in the (potentially) missing pieces in an array of route objects. It is used internally by [`useRoutes`](#useroutes) to create route objects.
+`createRoutesFromArray`是一个帮助补充路由对象数组（可能的）缺失部分的方法。他在[`useRoutes`](#useroutes)中被用来创建路由对象。
 
 <a name="createroutesfromchildren"></a>
 
 ### `createRoutesFromChildren`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function createRoutesFromChildren(children: VNodeChild): RouteObject[]
@@ -574,16 +577,16 @@ declare function createRoutesFromChildren(children: VNodeChild): RouteObject[]
 
 </details>
 
-`createRoutesFromChildren` is a helper that creates route objects from VNodes. It is used internally in a [`<Routes>` element](#routes) to generate a route config from its [`<Route>`](#route) children elements.
+`createRoutesFromChildren`是一个帮助通过 VNodes 来创建路由对象的方法。他在[`<Routes>` element](#routes)内部被用来从他的[`<Route>`](#route)子节点中创建路由对象。
 
-See also [`createRoutesFromArray`](#createroutesfromarray).
+类似的有 [`createRoutesFromArray`](#createroutesfromarray).
 
 <a name="generatepath"></a>
 
 ### `generatePath`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function generatePath(path: string, params: Params = {}): string
@@ -592,6 +595,8 @@ declare function generatePath(path: string, params: Params = {}): string
 </details>
 
 `generatePath` interpolates a set of params into a route path string with `:id` and `*` placeholders. This can be useful when you want to eliminate placeholders from a route path so it matches statically instead of using a dynamic parameter.
+
+`generatePath`对具有`:id`和`*`的路由路径进行参数的插值。这在你需要从一个路由路径中消除占位符来实现静态地匹配而不是动态参数的时候很有用。
 
 ```tsx
 generatePath('/users/:id', { id: 42 }) // "/users/42"
@@ -602,21 +607,21 @@ generatePath('/files/:type/*', { type: 'img', '*': 'cat.jpg' }) // "/files/img/c
 
 ### `Location`
 
-The term "location" in BestVue3 Router refers to [the `Location` interface](https://github.com/ReactTraining/history/blob/master/docs/api-reference.md#location) from the [history](https://github.com/ReactTraining/history) library.
+在 BestVue3 Router 中"location"定义就是[history](https://github.com/ReactTraining/history)库中的[`Location`接口](https://github.com/ReactTraining/history/blob/master/docs/api-reference.md#location)。
 
-> [!Note:]
+> [!注意:]
 >
-> The history package is BestVue3 Router's main dependency and many of the
-> core types in BestVue3 Router come directly from that library including
-> `Location`, `To`, `Path`, `State`, and others. You can read more about
-> the history library in [its documentation](https://github.com/ReactTraining/history/tree/master/docs).
+> history 模块是 BestVue3 Router 的主要依赖
+> BestVue3 Router 中的很多核心类型都是从 history 库中直接导出的
+> 包括`Location`， `To`， `Path`， `State`，和一些其他的。
+> 你可以从[他的文档](https://github.com/ReactTraining/history/tree/master/docs)中获取更多信息。
 
 <a name="matchroutes"></a>
 
 ### `matchRoutes`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function matchRoutes(
@@ -634,9 +639,9 @@ interface RouteMatch {
 
 </details>
 
-`matchRoutes` runs the route matching algorithm for a set of routes against a given [`location`](#location) to see which routes (if any) match. If it finds a match, an array of `RouteMatch` objects is returned, one for each route that matched.
+`matchRoutes` 在一组路由和给定的[`location`](#location)之间进行路由匹配算法来找到哪些路由匹配。如果他找到了匹配的，一组`RouteMatch`对象会被返回，每一项代表一个匹配的路由。
 
-This is the heart of BestVue3 Router's matching algorithm. It is used internally by [`useRoutes`](#useroutes) and the [`<Routes>` component](#routes) to determine which routes match the current location. It can also be useful in some situations where you want to manually match a set of routes.
+这是 BestVue3 Router 的核心匹配算法。他在[`useRoutes`](#useroutes)和 [`<Routes>` component](#routes)内部都被用来决定哪些路由匹配当前的位置。他也可能在某些你需要手动匹配路径的地方产生作用。
 
 <a name="matchpath"></a>
 
@@ -664,16 +669,16 @@ interface PathMatch {
 
 </details>
 
-`matchPath` matches a route path pattern against a URL pathname and returns information about the match. This is useful whenever you need to manually run the router's matching algorithm to determine if a route path matches or not. It returns `null` if the pattern does not match the given pathname.
+`matchPath` 匹配路由的路径正则和 URL 然后返回匹配信息。这在任何你想要手动运行路由器的匹配算法来决定路由路径是否匹配的时候都很有用。如果正则不匹配给定的路径则返回`null`。
 
-The [`useMatch` hook](#usematch) uses this function internally to match a route path relative to the current location.
+[`useMatch` hook](#usematch) 在内部使用这个方法来匹配一个路由路径和当前的位置。
 
 <a name="resolvepath"></a>
 
 ### `resolvePath`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function resolvePath(to: To, fromPathname = '/'): Path
@@ -689,16 +694,18 @@ interface Path {
 
 </details>
 
-`resolvePath` resolves a given `To` value into an actual `Path` object with an absolute `pathname`. This is useful whenever you need to know the exact path for a relative `To` value. For example, the `<Link>` component uses this function to know the actual URL it points to.
+`resolvePath`处理给定的`To`值到一个真实的包含绝对`pathname`的`Path`对象。这在你需要从一个相对的`To`值获取准确准确的路径的时候很有用。举个例子，`<Link>`组件使用这个函数来获取他指向的真实的 URL。
 
 The [`useResolvedPath` hook](#useresolvedpath) uses `resolvePath` internally to resolve against the current `location.pathname`.
+
+[`useResolvedPath` hook](#useresolvedpath)在内部使用`resolvePath`来根据当前`location.pathname`进行处理。
 
 <a name="useblocker"></a>
 
 ### `useBlocker`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function useBlocker(blocker: Blocker, getWhen: () => boolean): void
@@ -706,14 +713,14 @@ declare function useBlocker(blocker: Blocker, getWhen: () => boolean): void
 
 </details>
 
-`useBlocker` is a low-level hook that allows you to block navigation away from the current page, i.e. prevent the current location from changing. This is probably something you don't ever want to do unless you also display a confirmation dialog to the user to help them understand why their navigation attempt was blocked. In these cases, you probably want to use [`usePrompt`](#useprompt) or [`<Prompt>`](#prompt) instead.
+`useBlocker` 是一个低级的 hook 来允许你阻止路由从当前页面跳转，也即阻止当前的位置变化。除非你同时展示了一个提醒弹窗让你的用户明白为什么他们的跳转尝试被阻止了，不然你也许不应该这么做。在这些场景下，你也许会更愿意使用[`usePrompt`](#useprompt) 或者 [`<Prompt>`](#prompt)
 
 <a name="usehref"></a>
 
 ### `useHref`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function useHref(toEffect: () => To): string
@@ -721,20 +728,19 @@ declare function useHref(toEffect: () => To): string
 
 </details>
 
-The `useHref` hook returns a URL that may be used to link to the given `to` location, even outside of BestVue3 Router.
+`useHref`给定的`to`位置返回一个可能会被用来进行链接的 URL，即便在 BestVue3 Router 之外。
 
-> [!Tip:]
+> [!提示:]
 >
-> You may be interested in taking a look at the source for the `<Link>`
-> component in `@bv3/router` to see how it uses `useHref` internally to
-> determine its own `href` value.
+> 你也行会对看一下`@bv3/router`中的`<Link>`组件的来了解他如何在内部使用`useHref`
+> 来确定他的`href`值感兴趣。
 
 <a name="uselocation"></a>
 
 ### `useLocation`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function useLocation(): Location
@@ -742,7 +748,7 @@ declare function useLocation(): Location
 
 </details>
 
-This hook returns the current [`location`](#location) object. This can be useful if you'd like to perform some side effect whenever the current location changes.
+这个钩子返回当前的[`location`](#location)对象。这在你如果需要根据当前位置的变化来执行一些副作用（函数）的时候很有用。
 
 ```tsx
 import { watchEffect } from 'vue'
@@ -764,7 +770,7 @@ function App() {
 ### `useMatch`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function useMatch(pattern: PathPattern): PathMatch | null
@@ -772,16 +778,16 @@ declare function useMatch(pattern: PathPattern): PathMatch | null
 
 </details>
 
-Returns match data about a route at the given path relative to the current location.
+返回一个给定相对路径和当前位置的路由匹配的对象。
 
-See [`matchPath`](#matchpath) for more information.
+可以在[`matchPath`](#matchpath)查看更多信息。
 
 <a name="usenavigate"></a>
 
 ### `useNavigate`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function useNavigate(): NavigateFunction
@@ -794,7 +800,7 @@ interface NavigateFunction {
 
 </details>
 
-The `useNavigate` hook returns a function that lets you navigate programmatically, for example after a form is submitted.
+`useNavigate`钩子返回一个让你可以手动跳转的函数，比如当一个表单提交完成之后。
 
 ```tsx
 import { defineComponent } from 'vue'
@@ -815,17 +821,17 @@ const SignupForm = defineComponent({
 })
 ```
 
-The `navigate` function has two signatures:
+`navigate`函数有两个签名：
 
--   Either pass a `To` value (same type as `<Link to>`) with an optional second `{ replace, state }` arg or
--   Pass the delta you want to go in the history stack. For example, `navigate(-1)` is equivalent to hitting the back button.
+-   一是传递一个`To`值（和`<Link to>`一样）和一个可选的第二个`{ replace, state }`参数，或者
+-   传递你想到达的 history 栈的层数。比如，`navigate(-1)`和点击返回按钮是对等的。
 
 <a name="useoutlet"></a>
 
 ### `useOutlet`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function useOutlet(): Ref<VNode | null>
@@ -833,7 +839,7 @@ declare function useOutlet(): Ref<VNode | null>
 
 </details>
 
-Returns the element for the child route at this level of the route hierarchy. This hook is used internally by [`<Outlet>`](#outlet) to render child routes.
+返回路由层级中子路由的节点。这个钩子在[`<Outlet>`](#outlet)内部用来渲染子路由。
 
 <a name="useparams"></a>
 
@@ -848,7 +854,7 @@ declare function useParams(): Ref<Params>
 
 </details>
 
-The `useParams` hook returns an object of key/value pairs of the dynamic params from the current URL that were matched by the `<Route path>`. Child routes inherit all params from their parent routes.
+`useParams` 钩子返回匹配的`<Route path>`在当前的 URL 上的动态参数的 key/value 对象。子路由继承所有父路由的参数。
 
 ```tsx
 import { defineComponent } from 'vue'
@@ -883,7 +889,7 @@ function App() {
 ### `usePrompt`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function usePrompt(
@@ -894,7 +900,7 @@ declare function usePrompt(
 
 </details>
 
-The `usePrompt` hook may be used to confirm navigation before the user navigates away from the current page. This is useful when someone has entered unsaved data into a form, and you'd like to prompt them before they accidentally leave or close the tab and lose their work.
+`usePrompt`钩子会被用来在用户从当前跳转进行二次确认。在用户输入了一些没有保存的表单数据，当他们意外地离开或者关闭 tab 的时候你希望提醒他们这会导致他们丢失之前的工作的时候很有用。
 
 ```tsx
 import { defineComponent, reactive } from 'vue'
@@ -910,12 +916,12 @@ const SignupForm = defineComponent({
 })
 ```
 
-`usePrompt` uses [`window.confirm`](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm) on the web.
+`usePrompt`使用在网页端使用[`window.confirm`](https://developer.mozilla.org/en-US/docs/Web/API/Window/confirm)。
 
-> [!Note:]
+> [!注意:]
 >
-> If you need a more custom dialog box, you will have to use [`useBlocker`](#useblocker)
-> directly and handle accessibility issues yourself.
+> 如果你需要一个自定义的弹窗，你需要直接使用[`useBlocker`](#useblocker)
+> 同时你需要自己处理无障碍需求
 
 <a name="useresolvedpath"></a>
 
@@ -930,11 +936,11 @@ declare function useResolvedPath(toEffect: () => To): Path
 
 </details>
 
-This hook resolves the `pathname` of the location in the given `to` value against the pathname of the current location.
+这个钩子根据当前的位置和给定的`to`值来获取`pathname`。
 
-This is useful when building links from relative values. For example, check out the source to [`<NavLink>`](#navlink) which calls `useResolvedPath` internally to resolve the full pathname of the page being linked to.
+这在根据相对值来构建链接的时候很有用。比如，你可以查看[`<NavLink>`](#navlink) 的源码，他内部调用`useResolvedPath`来获取他链接到的页面的完整路径。
 
-See [`resolvePath`](#resolvepath) for more information.
+阅读[`resolvePath`](#resolvepath)来获取更多信息。
 
 <a name="useroutes"></a>
 <a name="partialrouteobject"></a>
@@ -942,7 +948,7 @@ See [`resolvePath`](#resolvepath) for more information.
 ### `useRoutes`
 
 <details>
-  <summary>Type declaration</summary>
+  <summary>函数定义</summary>
 
 ```tsx
 declare function useRoutes(
@@ -953,9 +959,9 @@ declare function useRoutes(
 
 </details>
 
-The `useRoutes` hook is the functional equivalent of [`<Routes>`](#routes), but it uses JavaScript objects instead of `<Route>` elements to define your routes. These objects have the same properties as normal [`<Route>` elements](#route), but they don't require JSX.
+`useRoutes`钩子是函数版本的[`<Routes>`](#routes)，他通过 JS 对象而不是`<Route>`节点来定义你的路由。这些对象和[`<Route>` elements](#route)有相同的属性，但是他们不需要 JSX。
 
-The return value of `useRoutes` is a function which render the result of matched routes. You can directly invoke the function in your render function.
+`useRoutes`返回的是一个渲染匹配的路由结果的函数。你可以在你组件的渲染函数内直接调用这个函数。
 
 ```tsx
 import { defineComponent } from 'vue'
@@ -980,7 +986,7 @@ const App = defineComponent({
 })
 ```
 
-See also [`createRoutesFromArray`](#createroutesfromarray).
+查看类似的[`createRoutesFromArray`](#createroutesfromarray).
 
 <a name="usesearchparams"></a>
 
@@ -1010,7 +1016,7 @@ type URLSearchParamsInit =
 
 </details>
 
-The `useSearchParams` hook is used to read and modify the query string in the URL for the current location. `useSearchParams` returns an array of two values: the `Ref` of current location's [search params](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams) and a function that may be used to update them.
+`useSearchParams`钩子用来读取和修改当前位置 URL 的搜索参数。`useSearchParams`返回一个包含两个值的数组，当前位置[搜索参数](https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams)的`Ref`对象和一个用来更新他们的函数。
 
 ```tsx
 import { defineComponent } from 'vue'
@@ -1040,18 +1046,19 @@ const App = defineComponent({
 
 > [!Note:]
 >
-> The `setSearchParams` function works like [`navigate`](#usenavigate), but
-> only for the [search portion](https://developer.mozilla.org/en-US/docs/Web/API/Location/search)
-> of the URL. Also note that the second arg to `setSearchParams` is
-> the same type as the second arg to `navigate`.
+> `setSearchParams` 函数和[`navigate`](#usenavigate)相似，
+> 但只修改 URL 的[search portion](https://developer.mozilla.org/en-US/docs/Web/API/Location/search)。
+> 同时注意`setSearchParams`的第二个参数和`navigate`的第二个参数是一样的。
 
 <a name="createsearchparams"></a>
 
 A `createSearchParams(init: URLSearchParamsInit)` function is also exported that is essentially a thin wrapper around [`new URLSearchParams(init)`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams) that adds support for using objects with array values. This is the same function that `useSearchParams` uses internally for creating `URLSearchParams` objects from `URLSearchParamsInit` values.
 
+我们同样导出了`createSearchParams(init: URLSearchParamsInit)`函数，他是一个[`new URLSearchParams(init)`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams)的简单封装来增加对数组值的支持。这和`useSearchParams`内部通过`URLSearchParamsInit`来创建`URLSearchParams`对象的方法是一样的。
+
 ### `defineRouteComponent`
 
-This is a help funtion for typescript, in BestVue3 Router you can use any Component as Route, for example:
+这是一个 typescript 的帮助方法，在 BestVue3 Router 你可以把任何组件当作路由组件，比如：
 
 ```tsx
 function App() {
@@ -1064,6 +1071,6 @@ function App() {
 }
 ```
 
-It work exactly the same as `<Route path="/" element={<Home />}>` in javascript. But you obviously won't define the `path` prop in your compoent, in typescript this will emit type check error.
+这和`<Route path="/" element={<Home />}>`是一模一样的。但是你显然不会主动定义`path`在你的组件 props，在 typescript 中这会导致类型检查错误。
 
-The `defineRouteComponent` have the some type declaration with `defineComponent` in Vue3 except the return component will auto contain `path` prop declaration.
+`defineRouteComponent`和 Vue3 的`difineComponent`有一样的定义，除了返回的组件会自动增加`path` prop 定义。
