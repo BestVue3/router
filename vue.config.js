@@ -10,4 +10,12 @@ module.exports = {
             .use('md')
             .loader(path.resolve(__dirname, 'src/webpack/markdown-loader.js'))
     },
+
+    configureWebpack(config) {
+        // return {
+        //     ...config,
+        //     devtool: 'source-map',
+        // }
+        config.devtool = 'source-map'
+    },
 }

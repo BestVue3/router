@@ -8,6 +8,7 @@ import {
     computed,
     onMounted,
     Ref,
+    cloneVNode,
 } from 'vue'
 import { PartialLocation, parsePath, To, State } from 'history'
 
@@ -385,8 +386,15 @@ export const Routes = defineComponent({
     setup(props, { slots }) {
         return useRoutes_(
             () => {
-                // slots can be computed
-                const children = rs(slots)
+                /**
+                 * We have to add key otherwise `Routes` will not update in SFC
+                 * see https://github.com/vuejs/vue-next/issues/2893
+                 */
+                const children = rs(slots).map((v, index) =>
+                    cloneVNode(v, {
+                        key: (v.props && v.props.key) || index,
+                    }),
+                )
                 return createRoutesFromChildren(children)
             },
             () => props.basename,
@@ -460,7 +468,6 @@ export function useMatch(
 
     const historyRef = useHistory()
 
-    // let locationRef = useLocation()
     return computed(() =>
         matchPath(patternEffect(), historyRef.value.location!.pathname),
     )

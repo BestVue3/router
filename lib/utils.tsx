@@ -27,21 +27,21 @@ export function renderSlots(slots: Slots, name = 'default'): VNode[] {
         // TODO: if dev throw error
     }
 
+    let children: any
     if (typeof slots[name] !== 'function') {
-        console.warn(
+        warning(
+            false,
             `${name} slot is not a function, it's better to use function for slots`,
         )
-        return slots[name] as any // eslint-disable-line
+        children = slots[name]
+    } else {
+        children = slots[name] && (slots[name] as any)()
     }
-
-    const children = slots[name] && (slots[name] as any)()
-    // if (children === undefined) {
-    invariant(
-        children !== undefined,
-        'if your children is none, you should return null instead of undefined',
-    )
-    // }
-    return children as VNode[]
+    if (Array.isArray(children)) {
+        // TODO: check if every item is valid VNode
+        return children
+    }
+    return [children]
 }
 
 export const rs = renderSlots

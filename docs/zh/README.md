@@ -26,7 +26,7 @@ Vue3 保留了 option API，并且 Vue-Router 也类似。这限制了 compositi
 -   [为什么使用 JSX 开发 Vue3 应用](https://www.bestvue3.com/blogs/why-jsx)
 -   [The best pratice of Vue3 effects](#TODO: url)
 
-# Doc menu
+# 文档
 
 -   [Get Start](./get-start.md)
 -   [Api Reference](./api-reference.md)

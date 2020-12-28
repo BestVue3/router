@@ -1,6 +1,6 @@
-import { Fragment } from 'vue'
+import { defineComponent, Fragment, nextTick, onMounted } from 'vue'
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route } from '@'
+import { MemoryRouter as Router, Routes, Route, useNavigate } from '@'
 
 describe('A <Routes>', () => {
     it('renders the first route that matches the URL', () => {
@@ -79,5 +79,59 @@ describe('A <Routes>', () => {
         ))
 
         expect(wrappper.html()).toMatchSnapshot()
+    })
+})
+
+describe('Switch <Routes> in SFC & template', () => {
+    it(`show success`, () => {
+        const Home = defineComponent({
+            setup() {
+                const navigate = useNavigate()
+
+                onMounted(() => {
+                    navigate('/about')
+                })
+
+                return () => <h1>Home</h1>
+            },
+        })
+
+        function About() {
+            return <h1>Home</h1>
+        }
+
+        const wrapper = mount({
+            template: `
+            <Router :initialEntries="['/home', '/about']">
+                <Routes>
+                    <Route path="home">
+                        <template v-slot:element>
+                            <Home />
+                        </template>
+                    </Route>
+                    <Route path="about">
+                        <template v-slot:element>
+                            <About />
+                        </template>
+                    </Route>
+                </Routes>
+            </Router>
+            `,
+            components: {
+                Router,
+                Routes,
+                Route,
+                Home,
+                About,
+            },
+            data() {
+                return { index: 0 }
+            },
+        })
+
+        expect(wrapper.html()).toEqual(`<h1>Home</h1>`)
+        nextTick(() => {
+            expect(wrapper.html()).toEqual(`<h1>About</h1>`)
+        })
     })
 })

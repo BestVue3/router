@@ -21,12 +21,7 @@ The main reasoin is that we think Vue official is far too conservative. Vue3 con
 
 In our opinion, option API is a **bad pratice** rather then a **not very good pratice**. So we decided to make some change for Vue3 community. It start with BestVue3 Router, and it really just a start, we will try to do a lot things to improve the quality of Vue3 community in the future.
 
-See also:
-
--   [Why Jsx is a better choice then SFC](#TODO: url)
--   [The best pratice of Vue3 effects](#TODO: url)
-
-# Doc menu
+# Documentation
 
 -   [Get Start](./docs/en/get-start.md)
 -   [Api Reference](./docs/en/api-reference.md)

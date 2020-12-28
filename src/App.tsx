@@ -32,11 +32,24 @@ const App = defineComponent({
         return () => {
             return (
                 <BrowserRouter>
+                    <div>
+                        <Link to="/">Home</Link>
+                        <Link to="about">About</Link>
+                    </div>
                     <Routes>
                         <Route
                             path="/"
-                            element={<MarkdownViewer html={md.markup} />}
+                            v-slots={{ element: <div>Home</div> }}
                         ></Route>
+                        <Route
+                            path="about"
+                            v-slots={{ element: <div>About</div> }}
+                        >
+                            <Route
+                                path="me"
+                                v-slots={{ element: <div>Me</div> }}
+                            ></Route>
+                        </Route>
                     </Routes>
                 </BrowserRouter>
             )
