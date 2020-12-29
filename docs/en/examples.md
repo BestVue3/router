@@ -12,5 +12,5 @@ A list of examples is available on codesanbox, you can also play with BestVue3 R
 -   [Basic Example](https://codesandbox.io/s/bv3-router-example-basic-yxgtz)
 -   [Without Route Component](https://codesandbox.io/s/bv3-router-example-without-route-eti7b)
 -   [Nested Route](https://codesandbox.io/s/bv3-router-example-nested-route-mqyum?file=/src/main.js)
--   [Nested Route With SFC]()
+-   [Nested Route With SFC](https://codesandbox.io/s/bv3-router-example-sfc-nest-luw1o?file=/src/main.js)
 -   [Routes Everywhere](https://codesandbox.io/s/bv3-router-example-routes-everywhere-yy5mo?file=/src/main.js)

@@ -2,7 +2,7 @@
 ![License](https://img.shields.io/npm/l/@bv3/router)
 ![Version](https://img.shields.io/npm/v/@bv3/router)
 
-[中文文档](./docs/en/README.md)
+[中文文档](./docs/zh/README.md)
 
 Declarative routing for Vue3.
 
