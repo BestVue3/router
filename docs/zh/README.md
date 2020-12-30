@@ -19,7 +19,7 @@ Vue 社区已经有一个官方的路由库了，为什么需要另外一个？
 主要的原因在于我们觉得 Vue 官方太过于保守。Vue3 有一个非常棒的 compisition API，他比 option API 具有太多的优势，但是因为需要兼容 Vue2，
 Vue3 保留了 option API，并且 Vue-Router 也类似。这限制了 composition API 的发挥，比如*我们必须要通过对象来定义组件*等。
 
-在我们看来，option API 不仅仅是一个不太好的实践，更是一个差的实践方式。所以我们决定对 Vue3 社区做出一些改变。这会从 BestVue3 的 Router 库开始，并且这确实只是一个开始，未来我们会尝试去做更多的事来提升 Vue3 社区的开源质量。
+我们对使用 JSX 开发 Vue3 的应用更感兴趣。React Router 的 API 相比 Vue-Router 更适合 JSX 语法。我们不推荐使用`Vue.use()`来合并一个插件，虽然`Vue.use()`和我们提供的`<BrowserRouter>`都是使用`provide`来对应用提供位置信息，这种用法会让用户觉得他们仍然在使用 mixin（Vue-Router 实际上还在`app.config.globalProperties.$router`挂载了路由对象来兼容 Vue2 的使用方式）。
 
 更多:
 

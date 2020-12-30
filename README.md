@@ -19,7 +19,7 @@ Vue community already had an official router library, why another one?
 
 The main reasoin is that we think Vue official is far too conservative. Vue3 contain a great composition API which have much more benefits then option API, but in order to be compatible with Vue2, Vue3 keep the option API and also Vue-Router will do the same thing. This bring some limition of using composition API like _we have to use object to define component_ etc.
 
-In our opinion, option API is a **bad pratice** rather then a **not very good pratice**. So we decided to make some change for Vue3 community. It start with BestVue3 Router, and it really just a start, we will try to do a lot things to improve the quality of Vue3 community in the future.
+And we are more interested about using JSX as syntax to develop Vue3 application. The React Router API will is more suitable for JSX then Vue-Router. We also not recommend `Vue.use()` to merge a plugin, althrough `Vue.use()` also did add `provide` location info to the rest of app, it will make people fill like they stil using mixin (Vue-Router actually add `app.config.globalProperties.$router` to compatible the usage of Vue2).
 
 # Documentation
 
