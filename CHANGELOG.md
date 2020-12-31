@@ -1,3 +1,10 @@
+<a name="v0-1-2"></a>
+
+# Version 0.1.2
+
+-   Fix `<useBlocker>` confirm forever bug
+-   Fix the usage of `watchEffect`, unlike `useEffect` in React, `watchEffect` accepe an `onInvalidate` to perform unbind _effet_
+
 <a name="v0-1-1"></a>
 
 # Version 0.1.1

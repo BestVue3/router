@@ -1,5 +1,6 @@
 <template>
     <BrowserRouter>
+        <hello-world />
         <div>
             <XLink to="/">Home</XLink>
             <XLink to="about">About</XLink>
@@ -28,6 +29,7 @@
 import { defineComponent } from 'vue'
 
 import { BrowserRouter, Routes, Route, Link } from '../lib'
+import HelloWorld from './components/HelloWorld.vue'
 
 export default defineComponent({
     components: {
@@ -35,6 +37,7 @@ export default defineComponent({
         Routes,
         Route,
         XLink: Link,
+        HelloWorld,
     },
 })
 </script>

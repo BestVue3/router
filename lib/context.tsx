@@ -1,7 +1,6 @@
 import {
     defineComponent,
     inject,
-    isRef,
     Ref,
     PropType,
     provide,
@@ -182,9 +181,9 @@ export function useBlocker(blocker: Blocker, getWhen: () => boolean): void {
 
     const historyRef = useHistory()
 
-    watchEffect(() => {
+    watchEffect(onInvalidate => {
         const { navigator } = historyRef.value
-        if (!getWhen) return
+        if (!getWhen()) return
 
         const unblock = navigator!.block((tx: Transition) => {
             const autoUnblockingTx = {
@@ -201,7 +200,7 @@ export function useBlocker(blocker: Blocker, getWhen: () => boolean): void {
             blocker(autoUnblockingTx)
         })
 
-        return unblock
+        onInvalidate(unblock)
     })
 }
 

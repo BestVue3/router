@@ -33,7 +33,7 @@ const App = defineComponent({
             return (
                 <BrowserRouter>
                     <div>
-                        <Link to="/">Home</Link>
+                        <Link to="/">Home1</Link>
                         <Link to="about">About</Link>
                     </div>
                     <Routes>
@@ -57,3 +57,18 @@ const App = defineComponent({
     },
 })
 export default App
+
+declare const __VUE_HMR_RUNTIME__: any
+
+if (module.hot) {
+    App.__hmrId = 'aaabbbccc'
+    const api = __VUE_HMR_RUNTIME__
+    module.hot.accept()
+    if (!api.createRecord('aaabbbccc')) {
+        api.reload('aaabbbccc', App)
+    }
+
+    module.hot.accept('./App.tsx', () => {
+        api.rerender('aaabbbccc')
+    })
+}

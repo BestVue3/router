@@ -65,12 +65,14 @@ function createRouter(type: 'Browser' | 'Hash') {
                 action: historyRef.value.action,
             })
 
-            watchEffect(() => {
+            watchEffect(onInvalidate => {
                 if (historyRef.value) {
-                    return historyRef.value.listen(update => {
-                        state.action = update.action
-                        state.location = update.location
-                    })
+                    onInvalidate(
+                        historyRef.value.listen(update => {
+                            state.action = update.action
+                            state.location = update.location
+                        }),
+                    )
                 }
             })
 
