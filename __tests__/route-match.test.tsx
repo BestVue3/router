@@ -11,7 +11,7 @@
 
 import { mount } from '@vue/test-utils'
 import { InitialEntry } from 'history'
-import { RouteObject } from 'lib/types'
+import { RouteObject, PartialRouteObject } from 'lib/types'
 import { defineComponent, PropType } from 'vue'
 import {
     MemoryRouter as Router,
@@ -141,7 +141,7 @@ describe('route matching', () => {
             name: 'RoutesRender',
             props: {
                 routes: {
-                    type: Array as PropType<RouteObject[]>,
+                    type: Array as PropType<PartialRouteObject[]>,
                     required: true,
                 },
             },
@@ -156,33 +156,35 @@ describe('route matching', () => {
         let routes = [
             {
                 path: 'courses',
-                node: <Courses />,
+                element: <Courses />,
                 children: [
                     {
                         path: ':id',
-                        node: <Course />,
-                        children: [{ path: 'grades', node: <CourseGrades /> }],
+                        element: <Course />,
+                        children: [
+                            { path: 'grades', element: <CourseGrades /> },
+                        ],
                     },
-                    { path: 'new', node: <NewCourse /> },
-                    { path: '/', node: <CoursesIndex /> },
-                    { path: '*', node: <CoursesNotFound /> },
+                    { path: 'new', element: <NewCourse /> },
+                    { path: '/', element: <CoursesIndex /> },
+                    { path: '*', element: <CoursesNotFound /> },
                 ],
             },
             {
                 path: 'courses',
-                node: <Landing />,
+                element: <Landing />,
                 children: [
                     {
                         path: 'react-fundamentals',
-                        node: <VueFundamentals />,
+                        element: <VueFundamentals />,
                     },
-                    { path: 'advanced-react', node: <AdvancedVue /> },
-                    { path: '*', node: <NeverRender /> },
+                    { path: 'advanced-react', element: <AdvancedVue /> },
+                    { path: '*', element: <NeverRender /> },
                 ],
             },
-            { path: '/', node: <Home /> },
-            { path: '*', node: <NotFound /> },
-        ] as RouteObject[]
+            { path: '/', element: <Home /> },
+            { path: '*', element: <NotFound /> },
+        ]
 
         describeRouteMatching(<RoutesRenderer routes={routes} />)
     })
