@@ -1,3 +1,10 @@
+<a name="v0-1-3"></a>
+
+# Version 0.1.3
+
+-   `useRoutes` use default `basenameEffect` as `() => ''`
+-   type accepted as `VNode` also accept `JSX.Element` so that it worked in JSX
+
 <a name="v0-1-2"></a>
 
 # Version 0.1.2

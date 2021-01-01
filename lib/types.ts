@@ -34,7 +34,7 @@ export interface RouteContextObject {
 export interface RouteObject {
     caseSensitive: boolean
     children?: RouteObject[]
-    node: VNode
+    node: VNode | JSX.Element
     path: string
 }
 
@@ -67,6 +67,6 @@ export const readOnly: <T extends unknown>(obj: T) => T = __DEV__
 export interface PartialRouteObject {
     caseSensitive?: boolean
     children?: PartialRouteObject[]
-    node?: VNode
+    element?: VNode | JSX.Element
     path?: string
 }

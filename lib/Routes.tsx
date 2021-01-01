@@ -415,7 +415,7 @@ export function createRoutesFromArray(
         const route: RouteObject = {
             path: partialRoute.path || '/',
             caseSensitive: partialRoute.caseSensitive === true,
-            node: partialRoute.node || ((<Outlet />) as VNode),
+            node: partialRoute.element || <Outlet />,
         }
 
         if (partialRoute.children) {
@@ -437,7 +437,7 @@ export function createRoutesFromArray(
  */
 export function useRoutes(
     partialRoutesEffect: () => PartialRouteObject[],
-    basenameEffect: () => string,
+    basenameEffect: () => string = () => '',
 ): () => VNode | null {
     invariant(
         useInRouter(),

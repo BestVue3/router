@@ -19,6 +19,8 @@ const Form = defineRouteComponent({
             input: '',
         })
 
+        const arr = [1, 2]
+
         return () => {
             return (
                 <form>
@@ -32,6 +34,9 @@ const Form = defineRouteComponent({
                             : 'Not blocked, try to input something'}
                     </p>
                     <input v-model={state.input} />
+                    {arr.map(a => (
+                        <span>{a}</span>
+                    ))}
                 </form>
             )
         }
