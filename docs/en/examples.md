@@ -17,3 +17,4 @@ A list of examples is available on codesanbox, you can also play with BestVue3 R
 -   [Routes Everywhere](https://codesandbox.io/s/bv3-router-example-routes-everywhere-yy5mo?file=/src/main.js)
 -   [Auth](https://codesandbox.io/s/bv3-router-exampe-auth-6cyf2?file=/src/main.js)
 -   [Prevent Transition](https://codesandbox.io/s/bv3-router-example-prevent-transition-hodjt?file=/src/main.js)
+-   [Use Object Array to make Routes](https://codesandbox.io/s/bv3-router-example-useroutes-1g6tw?file=/src/main.js)

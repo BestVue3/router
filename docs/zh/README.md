@@ -6,7 +6,7 @@ Vue3 声明式路由组件。
 
 This global version of this lib is about 5.2kb after gzipped. And the only dependencies is [history](https://github.com/ReactTraining/history), which only 1.5kb after gzipped. Little smaller than Vue-Router which is about 9.7kb after gzipped.
 
-本库的 global 版本在 gzip 之后大概 5.2kb。唯一的依赖[history](https://github.com/ReactTraining/history)gzip 之后大概 1.5kb。些微小于 Vue-Router 的 9.7kb。
+本库的 global 版本在 gzip 之后大概 5.2kb。唯一的依赖[history](https://github.com/ReactTraining/history) gzip 之后大概 1.5kb。些微小于 Vue-Router 的 9.7kb。
 
 > [!注意:]
 >
