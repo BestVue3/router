@@ -28,4 +28,4 @@ Vue3 保留了 option API，并且 Vue-Router 也类似。这限制了 compositi
 
 -   [Get Start](./get-start.md)
 -   [Api Reference](./api-reference.md)
--   [Examples](./example.md)
+-   [Examples](./examples.md)
