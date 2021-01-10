@@ -1,5 +1,5 @@
 import { createMemoryHistory } from 'history'
-import { createApp, defineComponent, onMounted } from 'vue'
+import { createApp, defineComponent, onMounted, reactive } from 'vue'
 import {
     MemoryRouter,
     Outlet,
@@ -19,12 +19,23 @@ import MarkdownViewer from './components/MarkdownViewer'
 
 import md from '../docs/zh/guides/quick-start.md'
 
+import A from './components/A'
+import B from './components/B'
+
 const App = defineComponent({
     name: 'App',
     setup(p, { slots }) {
         const history = createMemoryHistory({
             initialEntries: ['/test/haha'],
         })
+
+        const state = reactive({
+            count: 1,
+        })
+
+        setInterval(() => {
+            state.count += 1
+        }, 1000)
 
         setTimeout(() => {
             history.push('/test/a%20dynamic%20segment')
@@ -33,8 +44,8 @@ const App = defineComponent({
             return (
                 <BrowserRouter>
                     <div>
-                        <Link to="/">Home1</Link>
-                        <Link to="about">About</Link>
+                        <Link to="/">Home{state.count}</Link>
+                        <Link to="about">About1</Link>
                     </div>
                     <Routes>
                         <Route
@@ -51,24 +62,29 @@ const App = defineComponent({
                             ></Route>
                         </Route>
                     </Routes>
+                    <A />
+                    <B />
                 </BrowserRouter>
             )
         }
     },
 })
-export default App
+
+App.__hmrId = 'aaabbbccc'
 
 declare const __VUE_HMR_RUNTIME__: any
 
 if (module.hot) {
-    App.__hmrId = 'aaabbbccc'
     const api = __VUE_HMR_RUNTIME__
     module.hot.accept()
     if (!api.createRecord('aaabbbccc')) {
         api.reload('aaabbbccc', App)
     }
 
-    module.hot.accept('./App.tsx', () => {
-        api.rerender('aaabbbccc')
-    })
+    // module.hot.accept('./App.tsx', () => {
+    //     api.reload('aaabbbccc', App)
+    //     api.rerender('aaabbbccc')
+    // })
 }
+
+export default App
