@@ -1,8 +1,6 @@
 # Examples
 
-A list of examples is available on codesanbox, you can also play with BestVue3 Router with these examples.
-
-在 codesanbox 上我们维护来一组 demo，你可以用这些 demo 来尝试 BestVue3 Router。
+在 codesanbox 上我们维护了一组 demo，你可以用这些 demo 来尝试 BestVue3 Router。
 
 > [!注意:]
 >

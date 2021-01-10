@@ -10,9 +10,7 @@ Vue3 声明式路由组件。
 >
 > 本项目仍然在重度开发中，在我们发布 1.0.0 正式版之前 API 随时可能会变化（主要式添加新的 API），你需要自己决定是否在正式项目中使用本库。
 
-# 视频教程
-
-<iframe src="//player.bilibili.com/player.html?aid=458570285&bvid=BV145411n7tS&cid=280667180&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+[视频教程](https://www.bilibili.com/video/BV145411n7tS/)
 
 # 为什么另外一个路由库
 
