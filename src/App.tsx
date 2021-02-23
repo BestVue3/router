@@ -48,43 +48,16 @@ const App = defineComponent({
                         <Link to="about">About1</Link>
                     </div>
                     <Routes>
-                        <Route
-                            path="/"
-                            v-slots={{ element: <div>Home</div> }}
-                        ></Route>
+                        <Route path="/" v-slots={{ element: <A /> }}></Route>
                         <Route
                             path="about"
-                            v-slots={{ element: <div>About</div> }}
-                        >
-                            <Route
-                                path="me"
-                                v-slots={{ element: <div>Me</div> }}
-                            ></Route>
-                        </Route>
+                            v-slots={{ element: <B /> }}
+                        ></Route>
                     </Routes>
-                    <A />
-                    <B />
                 </BrowserRouter>
             )
         }
     },
 })
-
-App.__hmrId = 'aaabbbccc'
-
-declare const __VUE_HMR_RUNTIME__: any
-
-if (module.hot) {
-    const api = __VUE_HMR_RUNTIME__
-    module.hot.accept()
-    if (!api.createRecord('aaabbbccc')) {
-        api.reload('aaabbbccc', App)
-    }
-
-    // module.hot.accept('./App.tsx', () => {
-    //     api.reload('aaabbbccc', App)
-    //     api.rerender('aaabbbccc')
-    // })
-}
 
 export default App

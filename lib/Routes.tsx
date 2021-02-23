@@ -289,7 +289,11 @@ function useRoutes_(
     const locationRef = useLocation()
 
     const routesRef = computed(routesEffect)
-    const basenameRef = computed(() => basenameEffect() || '')
+    const basenameRef = computed(() => {
+        const { pathname: parentPathname } = routeContextRef.value
+        const basename = basenameEffect() || ''
+        return basename ? joinPaths([parentPathname, basename]) : parentPathname
+    })
 
     const matchesRef = computed(() => {
         // const matchesRef = computed(() => {
@@ -317,11 +321,7 @@ function useRoutes_(
             )
         }
 
-        let basename = basenameRef.value
-
-        basename = basename
-            ? joinPaths([parentPathname, basename])
-            : parentPathname
+        const basename = basenameRef.value
         const matches = matchRoutes(routesRef.value, location, basename)
         return matches
     })
@@ -340,7 +340,6 @@ function useRoutes_(
             (outlet, { params, pathname, route }) => {
                 return (
                     <RouteContextProvider
-                        // v-slots={slots}
                         node={route.node as VNode}
                         value={{
                             outlet,

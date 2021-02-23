@@ -25,4 +25,4 @@ And we are more interested about using JSX as syntax to develop Vue3 application
 
 -   [Get Start](./docs/en/get-start.md)
 -   [Api Reference](./docs/en/api-reference.md)
--   [Examples](./docs/en/example.md)
+-   [Examples](./docs/en/examples.md)
