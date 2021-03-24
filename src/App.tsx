@@ -44,7 +44,7 @@ const App = defineComponent({
             return (
                 <BrowserRouter>
                     <div>
-                        <Link to="/">Home{state.count}</Link>
+                        <Link to="/">Home</Link>
                         <Link to="about">About1</Link>
                     </div>
                     <Routes>

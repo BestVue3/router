@@ -9,6 +9,7 @@ import {
     onMounted,
     Ref,
     cloneVNode,
+    KeepAlive,
 } from 'vue'
 import { PartialLocation, parsePath, To, State } from 'history'
 
@@ -337,9 +338,10 @@ function useRoutes_(
         }
 
         const element = matches.reduceRight(
-            (outlet, { params, pathname, route }) => {
+            (outlet, { params, pathname, route }, index) => {
                 return (
                     <RouteContextProvider
+                        key={(route.node as VNode).key || 'inter' + index}
                         node={route.node as VNode}
                         value={{
                             outlet,
@@ -383,21 +385,27 @@ export const Routes = defineComponent({
     name: 'Routes',
     props: RoutesProps,
     setup(props, { slots }) {
-        return useRoutes_(
+        const renderRoutes = useRoutes_(
             () => {
                 /**
                  * We have to add key otherwise `Routes` will not update in SFC
                  * see https://github.com/vuejs/vue-next/issues/2893
                  */
-                const children = rs(slots).map((v, index) =>
-                    cloneVNode(v, {
-                        key: (v.props && v.props.key) || index,
-                    }),
-                )
+                const children = rs(slots)
+
+                // .map((v, index) =>
+                //     cloneVNode(v, {
+                //         key: (v.props && v.props.key) || index,
+                //     }),
+                // )
                 return createRoutesFromChildren(children)
             },
             () => props.basename,
         )
+
+        return () => {
+            return <KeepAlive>{renderRoutes()}</KeepAlive>
+        }
     },
 })
 
