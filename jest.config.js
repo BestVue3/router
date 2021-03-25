@@ -14,6 +14,7 @@ module.exports = {
     moduleNameMapper: {
         '^@$': !usingSorce ? '<rootDir>' : '<rootDir>/lib',
     },
+    testEnvironment: 'jest-environment-jsdom-fifteen',
     globals: {
         __DEV__,
         'ts-jest': {
