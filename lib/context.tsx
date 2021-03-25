@@ -159,11 +159,9 @@ export const RouteContextProvider = defineComponent({
             required: true,
         },
     },
-    setup(props, { slots }) {
-        console.log('--------->')
+    setup(props) {
         const content = computed(() => props.value)
         provide(RouteContextKey, content)
-        // return () => rs(slots)
         return () => props.node
     },
 })
