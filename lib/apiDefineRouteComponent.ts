@@ -47,7 +47,7 @@ export type PublicProps = VNodeProps &
     AllowedComponentProps &
     ComponentCustomProps
 
-export type RouteProps = { path: string; keepalive: boolean }
+type RouteProps = { path: string; keepalive: boolean }
 
 // defineComponent is a utility that is primarily used for type inference
 // when declaring components. Type inference is provided in the component
