@@ -238,7 +238,7 @@ export function createRoutesFromChildren(children: VNodeChild): RouteObject[] {
         }
 
         if (node.type === Fragment) {
-            // Transparently support React.Fragment and its children.
+            // Transparently support Vue.Fragment and its children.
             let subChildren: VNodeChild = node.children as VNodeChild
             if (
                 node.children &&
@@ -259,6 +259,7 @@ export function createRoutesFromChildren(children: VNodeChild): RouteObject[] {
             // permits people to use any element they prefer, not just <Route> (though
             // all our official examples and docs use <Route> for clarity).
             node,
+            keepalive: node.props && node.props.keepalive,
         }
 
         if (node.children) {
@@ -285,7 +286,7 @@ export function createRoutesFromChildren(children: VNodeChild): RouteObject[] {
 function useRoutes_(
     routesEffect: () => RouteObject[],
     basenameEffect: () => string,
-): () => VNode | null {
+): () => VNodeChild | null {
     const routeContextRef = useRouteContext()
     const locationRef = useLocation()
 
@@ -339,7 +340,7 @@ function useRoutes_(
 
         const element = matches.reduceRight(
             (outlet, { params, pathname, route }, index) => {
-                return (
+                const node: VNode = (
                     <RouteContextProvider
                         key={(route.node as VNode).key!}
                         node={route.node as VNode}
@@ -354,8 +355,14 @@ function useRoutes_(
                         }}
                     />
                 ) as VNode
+
+                // return [node]
+                return [
+                    <KeepAlive>{route.keepalive ? node : null}</KeepAlive>,
+                    !route.keepalive ? node : null,
+                ] as VNodeChild
             },
-            null as VNode | null,
+            null as VNodeChild | null,
         )
 
         return element
@@ -375,22 +382,7 @@ export const RoutesProps = {
         type: String,
         default: '',
     },
-    keepalive: {
-        type: Boolean,
-        default: false,
-    },
-    include: {
-        type: [String, RegExp, Array] as PropType<MatchPattern>,
-    },
-    exclude: {
-        type: [String, RegExp, Array] as PropType<MatchPattern>,
-    },
-    max: {
-        type: [String, Number] as PropType<string | number>,
-    },
 } as const
-
-// type RoutesType = DefineComponent<typeof RoutesProps & KeepAliveProps>
 
 /**
  * A container for a nested tree of <Route> elements that renders the branch
@@ -418,15 +410,7 @@ export const Routes = defineComponent({
             () => props.basename,
         )
 
-        return () => {
-            const { keepalive, basename, ...keepaliveProps } = props
-
-            return keepalive ? (
-                <KeepAlive {...keepaliveProps}>{renderRoutes()}</KeepAlive>
-            ) : (
-                renderRoutes()
-            )
-        }
+        return renderRoutes
     },
 })
 
@@ -444,6 +428,7 @@ export function createRoutesFromArray(
             path: partialRoute.path || '/',
             caseSensitive: partialRoute.caseSensitive === true,
             node: partialRoute.element || <Outlet />,
+            keepalive: partialRoute.keepalive,
         }
 
         if (partialRoute.children) {
@@ -466,7 +451,7 @@ export function createRoutesFromArray(
 export function useRoutes(
     partialRoutesEffect: () => PartialRouteObject[],
     basenameEffect: () => string = () => '',
-): () => VNode | null {
+): () => VNodeChild {
     invariant(
         useInRouter(),
         `useRoutes may be used only in the context of a <Router> component.`,
@@ -526,6 +511,7 @@ export const RouteProps = {
         >,
     },
     path: String,
+    keepalive: Boolean,
 } as const
 
 /**

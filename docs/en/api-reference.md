@@ -427,6 +427,7 @@ const RouteProps = {
         type: Object as PropType<VNode | JSX.Element | (() => VNodeChild)>,
     },
     path: String,
+    keepalive: Boolean,
 } as const
 ```
 
@@ -458,6 +459,17 @@ For example, in the following config the parent route renders an `<Outlet>` by d
 ```tsx
 <Route path="users">
     <Route path=":id" element={<UserProfile />} />
+</Route>
+```
+
+You can pass `keepalive` to `<Route>` to control if this route should be kept when redirect away.
+KeepAlive is a very useful feature in Vue when people want to keep the state of a component and it's subtree when it unmounted.
+We implement it by render all routes under `<KeepAlive>`. And we guess it's a much clear way how we control which route should be kept.
+
+```tsx
+<Routes>
+    <Route path="stay" element={<Kept />} keepalive />
+    <Route path="leave" element={<Lost />}>
 </Route>
 ```
 

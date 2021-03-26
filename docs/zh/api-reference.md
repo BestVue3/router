@@ -468,6 +468,17 @@ For example, in the following config the parent route renders an `<Outlet>` by d
 </Route>
 ```
 
+你可以给`<Route>`传递`keepalive`来控制该路由在跳转之后是否被保存。
+在一个组件被卸载时你想要保持他的状态和其子树的状态时，KeepAlive 是一个非常有用的功能。
+我们通过把路由渲染在`<KeepAlive>`下来实现这个功能。我们觉得这种实现方式显然更加自然。
+
+```tsx
+<Routes>
+    <Route path="stay" element={<Kept />} keepalive />
+    <Route path="leave" element={<Lost />}>
+</Route>
+```
+
 > [!注意:]
 >
 > 之前的例子都是使用 JSX 作为语法，在 JSX 中传递 VNode 非常的简单

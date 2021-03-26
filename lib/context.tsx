@@ -9,6 +9,7 @@ import {
     computed,
     watchEffect,
     onMounted,
+    VNodeChild,
 } from 'vue'
 import { Location, To, Path, Blocker, State, Transition } from 'history'
 import { invariant, rs, resolvePath, warning } from './utils'
@@ -99,7 +100,7 @@ export function useRouteContext() {
  *
  * @see https://router.bestvue3.com/api/useOutlet
  */
-export function useOutlet(): Ref<VNode | null> {
+export function useOutlet(): Ref<VNodeChild> {
     // return React.useContext(RouteContext).outlet
     const routeContextRef = useRouteContext()
     const outletRef = computed(() => routeContextRef.value.outlet)

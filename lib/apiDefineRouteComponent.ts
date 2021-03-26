@@ -47,7 +47,7 @@ export type PublicProps = VNodeProps &
     AllowedComponentProps &
     ComponentCustomProps
 
-export type PathProps = { path: string }
+export type RouteProps = { path: string; keepalive: boolean }
 
 // defineComponent is a utility that is primarily used for type inference
 // when declaring components. Type inference is provided in the component
@@ -61,7 +61,7 @@ export function defineRouteComponent<Props, RawBindings = object>(
         props: Readonly<Props>,
         ctx: SetupContext,
     ) => RawBindings | RenderFunction,
-): DefineComponent<Props & PathProps, RawBindings>
+): DefineComponent<Props & RouteProps, RawBindings>
 
 // overload 2: object format with no props
 // (uses user defined props interface)
@@ -89,7 +89,7 @@ export function defineRouteComponent<
         EE
     >,
 ): DefineComponent<
-    Props & PathProps,
+    Props & RouteProps,
     RawBindings,
     D,
     C,
@@ -126,7 +126,7 @@ export function defineRouteComponent<
         EE
     >,
 ): DefineComponent<
-    Readonly<{ [key in PropNames]?: any } & PathProps>,
+    Readonly<{ [key in PropNames]?: any } & RouteProps>,
     RawBindings,
     D,
     C,
@@ -153,7 +153,7 @@ export function defineRouteComponent<
     EE extends string = string
 >(
     options: ComponentOptionsWithObjectProps<
-        PropsOptions & PathProps,
+        PropsOptions & RouteProps,
         RawBindings,
         D,
         C,

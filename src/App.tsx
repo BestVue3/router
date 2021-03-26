@@ -48,10 +48,14 @@ const App = defineComponent({
                         <Link to="about">About1</Link>
                     </div>
                     <Routes>
-                        <Route path="/" v-slots={{ element: <A /> }}></Route>
                         <Route
+                            path="/"
+                            v-slots={{ element: () => <A /> }}
+                        ></Route>
+                        <Route
+                            keepalive
                             path="about"
-                            v-slots={{ element: <B /> }}
+                            v-slots={{ element: () => <B /> }}
                         ></Route>
                     </Routes>
                 </BrowserRouter>

@@ -1,4 +1,4 @@
-import { VNode } from 'vue'
+import { VNode, VNodeChild } from 'vue'
 import { Action, Location, History } from 'history'
 
 declare const __DEV__: boolean
@@ -25,7 +25,7 @@ export interface LocationContextObject {
 }
 
 export interface RouteContextObject {
-    outlet: VNode | null
+    outlet: VNodeChild
     params: Readonly<Params>
     pathname: string
     route: RouteObject | null
@@ -36,6 +36,7 @@ export interface RouteObject {
     children?: RouteObject[]
     node: VNode | JSX.Element
     path: string
+    keepalive?: boolean
 }
 
 export interface RouteMatch {
@@ -69,4 +70,5 @@ export interface PartialRouteObject {
     children?: PartialRouteObject[]
     element?: VNode | JSX.Element
     path?: string
+    keepalive?: boolean
 }

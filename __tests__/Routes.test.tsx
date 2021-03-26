@@ -83,7 +83,7 @@ describe('A <Routes>', () => {
 })
 
 describe('Switch <Routes> in SFC & template', () => {
-    it(`show success`, () => {
+    it(`show success`, done => {
         const Home = defineComponent({
             setup() {
                 const navigate = useNavigate()
@@ -97,12 +97,12 @@ describe('Switch <Routes> in SFC & template', () => {
         })
 
         function About() {
-            return <h1>Home</h1>
+            return <h1>About</h1>
         }
 
         const wrapper = mount({
             template: `
-            <Router :initialEntries="['/home', '/about']">
+            <Router :initialEntries="['/home']">
                 <Routes>
                     <Route path="home">
                         <template v-slot:element>
@@ -132,6 +132,7 @@ describe('Switch <Routes> in SFC & template', () => {
         expect(wrapper.html()).toEqual(`<h1>Home</h1>`)
         nextTick(() => {
             expect(wrapper.html()).toEqual(`<h1>About</h1>`)
+            done()
         })
     })
 })
