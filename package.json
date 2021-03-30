@@ -1,7 +1,7 @@
 {
     "name": "@bv3/router",
     "description": "Declarative routing fro Vue3",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "types": "types",
     "module": "dist/bv3-router.esm-bundler.js",
     "main": "main.js",
