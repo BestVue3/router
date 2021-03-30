@@ -6,7 +6,7 @@ const usingSorce = !!process.env.SOURCE
 const __DEV__ = process.env.__DEV__ === false ? false : true
 
 module.exports = {
-    testMatch: ['**/__tests__/**/*.+(ts|tsx)'],
+    testMatch: ['**/__tests__/**/*.test.+(ts|tsx)'],
     transform: {
         // '\\.js$': './jest-transformer.js',
         '^.+\\.(ts|tsx)$': 'ts-jest',

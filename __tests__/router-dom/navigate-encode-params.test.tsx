@@ -1,13 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { defineComponent, nextTick, onMounted } from 'vue'
-import {
-    BrowserRouter as Router,
-    Routes,
-    Route,
-    Link,
-    useNavigate,
-    useParams,
-} from '@'
+import { BrowserRouter as Router, Route, useNavigate, useParams } from '@'
+
+import Routes from '../utils/RoutesDisableKeepAlive'
 
 describe('navigate with params', () => {
     describe('when navigate params are not already encoded', () => {

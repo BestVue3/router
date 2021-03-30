@@ -1,14 +1,8 @@
 import { mount } from '@vue/test-utils'
-import { defineComponent, nextTick, onMounted, ref } from 'vue'
-import {
-    MemoryRouter as Router,
-    Routes,
-    Route,
-    Link,
-    useNavigate,
-    useParams,
-    useSearchParams,
-} from '@'
+import { defineComponent, ref } from 'vue'
+import { MemoryRouter as Router, Route, useSearchParams } from '@'
+
+import Routes from '../utils/RoutesDisableKeepAlive'
 
 describe('useSearchParams', () => {
     const SearchPage = defineComponent({

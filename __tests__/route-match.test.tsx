@@ -1,26 +1,10 @@
-// import * as React from 'react';
-// import { create as createTestRenderer } from 'react-test-renderer';
-// import {
-//   MemoryRouter as Router,
-//   Outlet,
-//   Routes,
-//   Route,
-//   useParams,
-//   useRoutes
-// } from 'react-router';
-
 import { mount } from '@vue/test-utils'
 import { InitialEntry } from 'history'
-import { RouteObject, PartialRouteObject } from 'lib/types'
+import { PartialRouteObject } from 'lib/types'
 import { defineComponent, PropType } from 'vue'
-import {
-    MemoryRouter as Router,
-    Routes,
-    Route,
-    useParams,
-    Outlet,
-    useRoutes,
-} from '@'
+import { MemoryRouter as Router, Route, useParams, Outlet, useRoutes } from '@'
+
+import Routes from './utils/RoutesDisableKeepAlive'
 
 describe('route matching', () => {
     function VueFundamentals() {
@@ -50,8 +34,8 @@ describe('route matching', () => {
             '/courses/routing/grades',
             '/courses/new',
             '/courses/not/found',
-            '/courses/react-fundamentals',
-            '/courses/advanced-react',
+            '/courses/vue3-fundamentals',
+            '/courses/advanced-vue3',
             '/',
             '/not-found',
         ]
@@ -122,7 +106,7 @@ describe('route matching', () => {
     function Landing() {
         return (
             <p>
-                <h1>Welcome to React Training</h1>
+                <h1>Welcome to Vue3 Training</h1>
                 <Outlet />
             </p>
         )
@@ -175,10 +159,10 @@ describe('route matching', () => {
                 element: <Landing />,
                 children: [
                     {
-                        path: 'react-fundamentals',
+                        path: 'vue3-fundamentals',
                         element: <VueFundamentals />,
                     },
-                    { path: 'advanced-react', element: <AdvancedVue /> },
+                    { path: 'advanced-vue3', element: <AdvancedVue /> },
                     { path: '*', element: <NeverRender /> },
                 ],
             },
@@ -202,10 +186,10 @@ describe('route matching', () => {
                 </Route>
                 <Route path="courses" element={<Landing />}>
                     <Route
-                        path="react-fundamentals"
+                        path="vue3-fundamentals"
                         element={<VueFundamentals />}
                     />
-                    <Route path="advanced-react" element={<AdvancedVue />} />
+                    <Route path="advanced-vue3" element={<AdvancedVue />} />
                     <Route path="*" element={<NeverRender />} />
                 </Route>
                 <Route path="/" element={<Home />} />
@@ -241,8 +225,8 @@ describe('route matching', () => {
                     <CNF path="*" />
                 </CS>
                 <L path="courses">
-                    <RF path="react-fundamentals" />
-                    <AR path="advanced-react" />
+                    <RF path="vue3-fundamentals" />
+                    <AR path="advanced-vue3" />
                     <NeverRender path="*" />
                 </L>
                 <H path="/" />

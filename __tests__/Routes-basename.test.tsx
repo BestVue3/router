@@ -1,15 +1,8 @@
 import { mount } from '@vue/test-utils'
-import { InitialEntry } from 'history'
-import { RouteObject } from 'lib/types'
-import { defineComponent, PropType } from 'vue'
-import {
-    MemoryRouter as Router,
-    Routes,
-    Route,
-    useParams,
-    Outlet,
-    useRoutes,
-} from '@'
+import { defineComponent } from 'vue'
+import { MemoryRouter as Router, Route, useParams, Outlet } from '@'
+
+import Routes from './utils/RoutesDisableKeepAlive'
 
 const COMMENT_HTML = '<!---->'
 
@@ -52,7 +45,9 @@ describe('<Routes> with a basename', () => {
     it('matches when the URL pathname starts with that base', () => {
         const wrapper = mount(() => (
             <Router initialEntries={['/app/users/michael/dashboard']}>
-                <Routes basename="/app">{userRoute}</Routes>
+                <Routes basename="/app" roughlyDisableKeepAlive>
+                    {userRoute}
+                </Routes>
             </Router>
         ))
 

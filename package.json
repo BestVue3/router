@@ -82,11 +82,11 @@
         "stylus-loader": "^4.3.1",
         "ts-jest": "26",
         "typescript": "~3.9.3",
-        "vue": "^3.0.7",
+        "vue": "^3.0.9",
         "vue-jest": "^5.0.0-alpha.7"
     },
     "peerDependencies": {
         "history": "^5.0.0",
-        "vue": "^3.0.0"
+        "vue": "^3.0.8"
     }
 }

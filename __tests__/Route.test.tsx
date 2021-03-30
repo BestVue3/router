@@ -1,5 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route } from '@'
+import { MemoryRouter as Router, Route } from '@'
+
+import Routes from './utils/RoutesDisableKeepAlive'
 
 describe('A <Route>', () => {
     it('renders its `element` prop', () => {

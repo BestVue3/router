@@ -4,6 +4,7 @@
 
 -   Support keepalive, you can add `keepalive={true}` on `<Route>` to specify this route should keepalive. Read more on [doc](docs/en/api-reference/api-reference.md#routes-and-route)
 -   Add test utils to make sure keealive work as expect.
+-   peerDependency of vue up to `3.0.8` so render keepalive on ssr will work fine, see [https://github.com/vuejs/vue-next/pull/3259].
 
 <a name="v0-1-3"></a>
 

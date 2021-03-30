@@ -286,6 +286,7 @@ export function createRoutesFromChildren(children: VNodeChild): RouteObject[] {
 function useRoutes_(
     routesEffect: () => RouteObject[],
     basenameEffect: () => string,
+    roughlyDisableKeepAliveEffect: () => boolean = () => false,
 ): () => VNodeChild | null {
     const routeContextRef = useRouteContext()
     const locationRef = useLocation()
@@ -332,6 +333,7 @@ function useRoutes_(
         const matches = matchesRef.value
         const { params: parentParams } = routeContextRef.value
         const basename = basenameRef.value
+        const disableKeepAlive = roughlyDisableKeepAliveEffect()
 
         if (!matches) {
             // TODO: Warn about nothing matching, suggest using a catch-all route.
@@ -356,7 +358,9 @@ function useRoutes_(
                     />
                 ) as VNode
 
-                // return [node]
+                if (disableKeepAlive) return node
+
+                // TODO: when <KeepAlive> render nothing it will leave a comment node.
                 return [
                     <KeepAlive>{route.keepalive ? node : null}</KeepAlive>,
                     !route.keepalive ? node : null,
@@ -367,7 +371,6 @@ function useRoutes_(
 
         return element
     }
-    // }
 }
 
 type MatchPattern = string | RegExp | string[] | RegExp[]
@@ -381,6 +384,12 @@ export const RoutesProps = {
     basename: {
         type: String,
         default: '',
+    },
+    // help to solve <KeepAlive> render <!----> when its children is null
+    // not intend to be used in real world case
+    roughlyDisableKeepAlive: {
+        type: Boolean,
+        default: false,
     },
 } as const
 
@@ -408,6 +417,7 @@ export const Routes = defineComponent({
                 return createRoutesFromChildren(children)
             },
             () => props.basename,
+            () => props.roughlyDisableKeepAlive,
         )
 
         return renderRoutes

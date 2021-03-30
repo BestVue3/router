@@ -1,7 +1,9 @@
 import { mount } from '@vue/test-utils'
 import { Location } from 'history'
-import { defineComponent, nextTick } from 'vue'
-import { Router as BaseRouter, Routes, Route, Navigate, useNavigate } from '@'
+import { defineComponent } from 'vue'
+import { Router as BaseRouter, Route, useNavigate } from '@'
+
+import Routes from './utils/RoutesDisableKeepAlive'
 
 const Router: any = BaseRouter
 

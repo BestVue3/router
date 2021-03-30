@@ -1,5 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route, Outlet } from '@'
+import { MemoryRouter as Router, Route, Outlet } from '@'
+
+import Routes from './utils/RoutesDisableKeepAlive'
 
 describe('Descendant <Routes> splat matching', () => {
     describe('when the parent route path ends with /*', () => {
@@ -12,7 +14,7 @@ describe('Descendant <Routes> splat matching', () => {
                 return (
                     <div>
                         <h1>Vue</h1>
-                        <Routes>
+                        <Routes roughlyDisableKeepAlive>
                             <Route
                                 path="vue-fundamentals"
                                 element={<VueFundamentals />}
@@ -33,7 +35,7 @@ describe('Descendant <Routes> splat matching', () => {
 
             const wrapper = mount(() => (
                 <Router initialEntries={['/courses/vue/vue-fundamentals']}>
-                    <Routes>
+                    <Routes roughlyDisableKeepAlive>
                         <Route path="courses" element={<Courses />}>
                             <Route path="vue/*" element={<VueCourses />} />
                         </Route>

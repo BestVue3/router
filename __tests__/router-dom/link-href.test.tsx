@@ -1,5 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route, Link } from '@'
+import { MemoryRouter as Router, Route, Link } from '@'
+
+import Routes from '../utils/RoutesDisableKeepAlive'
 
 describe('Link href', () => {
     describe('absolute', () => {

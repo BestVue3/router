@@ -1,5 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { MemoryRouter as Router, Routes, Route, Outlet } from '@'
+import { MemoryRouter as Router, Route, Outlet } from '@'
+
+import Routes from './utils/RoutesDisableKeepAlive'
 
 describe('Descendant <Routes>', () => {
     let consoleWarn: any

@@ -1,5 +1,7 @@
 import { mount } from '@vue/test-utils'
-import { Router as BaseRouter, Routes, Route, Link } from '@'
+import { Router as BaseRouter, Route, Link } from '@'
+
+import Routes from '../utils/RoutesDisableKeepAlive'
 
 const Router: any = BaseRouter // skip ts validation
 

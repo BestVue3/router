@@ -1,6 +1,6 @@
 import { mount } from '@vue/test-utils'
 import { createMemoryHistory } from 'history'
-import { Router, Routes, Route } from '@'
+import { Router } from '@'
 
 describe('A <Router>', () => {
     let consoleError: any
