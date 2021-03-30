@@ -1,31 +1,3 @@
-// import {
-//     ComputedOptions,
-//     MethodOptions,
-//     ComponentOptionsWithoutProps,
-//     ComponentOptionsWithArrayProps,
-//     ComponentOptionsWithObjectProps,
-//     ComponentOptionsMixin,
-//     RenderFunction,
-//     ComponentOptionsBase
-//   } from './componentOptions'
-//   import {
-//     SetupContext,
-//     AllowedComponentProps,
-//     ComponentCustomProps
-//   } from './component'
-//   import {
-//     ExtractPropTypes,
-//     ComponentPropsOptions,
-//     ExtractDefaultPropTypes
-//   } from './componentProps'
-//   import { EmitsOptions } from './componentEmits'
-//   import { isFunction } from '@vue/shared'
-//   import { VNodeProps } from './vnode'
-//   import {
-//     CreateComponentPublicInstance,
-//     ComponentPublicInstanceConstructor
-//   } from './componentPublicInstance'
-
 import {
     ComputedOptions,
     MethodOptions,
